@@ -76,12 +76,12 @@
     };
 
     const locations = [
-        { id: 1, name_si: "සීගිරිය", name_en: "Sigiriya", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික අහස් මාලිගය සහ ලෝක උරුමයකි.", desc_en: "Ancient Sky Palace and a World Heritage site.", lat: 7.9570, lon: 80.7603 },
-        { id: 2, name_si: "මහනුවර", name_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "The sacred city home to the Temple of the Tooth.", lat: 7.2906, lon: 80.6337 },
-        { id: 3, name_si: "ගාල්ල", name_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", lat: 6.0331, lon: 80.2176 },
-        { id: 4, name_si: "නුවරඑළිය", name_en: "Nuwara Eliya", img: "https://images.pexels.com/photos/10103756/pexels-photo-10103756.jpeg", desc_si: "සීතල දේශගුණය සහ මනරම් තේ වතු යායවල්.", desc_en: "Cool climate and picturesque tea estates.", lat: 6.9497, lon: 80.7891 },
-        { id: 5, name_si: "ඇල්ල", name_en: "Ella", img: "https://images.pexels.com/photos/10545226/pexels-photo-10545226.jpeg", desc_si: "ආරුක්කු නමය පාලම සහ රාවණා ඇල්ල.", desc_en: "Nine Arch Bridge and Ravana Falls.", lat: 6.8724, lon: 81.0453 },
-        { id: 6, name_si: "මිරිස්ස", name_en: "Mirissa", img: "https://images.pexels.com/photos/12301538/pexels-photo-12301538.jpeg", desc_si: "තල්මසුන් නැරඹීම සඳහා හොඳම ස්ථානයකි.", desc_en: "One of the best places for whale watching.", lat: 5.9483, lon: 80.4716 }
+        { id: 1, name_si: "සීගිරිය", name_en: "Sigiriya", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික අහස් මාලිගය සහ ලෝක උරුමයකි.", desc_en: "Ancient Sky Palace and a World Heritage site.", lat: "7.9570", lon: "80.7603" },
+        { id: 2, name_si: "මහනුවර", name_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "The sacred city home to the Temple of the Tooth.", lat: "7.2906", lon: "80.6337" },
+        { id: 3, name_si: "ගාල්ල", name_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", lat: "6.0331", lon: "80.2176" },
+        { id: 4, name_si: "නුවරඑළිය", name_en: "Nuwara Eliya", img: "https://images.pexels.com/photos/10103756/pexels-photo-10103756.jpeg", desc_si: "සීතල දේශගුණය සහ මනරම් තේ වතු යායවල්.", desc_en: "Cool climate and picturesque tea estates.", lat: "6.9497", lon: "80.7891" },
+        { id: 5, name_si: "ඇල්ල", name_en: "Ella", img: "https://images.pexels.com/photos/10545226/pexels-photo-10545226.jpeg", desc_si: "ආරුක්කු නමය පාලම සහ රාවණා ඇල්ල.", desc_en: "Nine Arch Bridge and Ravana Falls.", lat: "6.8724", lon: "81.0453" },
+        { id: 6, name_si: "මිරිස්ස", name_en: "Mirissa", img: "https://images.pexels.com/photos/12301538/pexels-photo-12301538.jpeg", desc_si: "තල්මසුන් නැරඹීම සඳහා හොඳම ස්ථානයකි.", desc_en: "One of the best places for whale watching.", lat: "5.9483", lon: "80.4716" }
     ];
 
     function render() {
@@ -89,8 +89,8 @@
         list.innerHTML = "";
         locations.forEach(loc => {
             list.innerHTML += `
-                <div class="card" data-name="${loc.name_en.toLowerCase()} ${loc.name_si}">
-                    <img src="${loc.img}" alt="${loc.name_en}">
+                <div class="card">
+                    <img src="${loc.img}">
                     <div class="card-content">
                         <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
                         <p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
@@ -102,7 +102,7 @@
 
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
-        // මෙන්න මෙතැනයි වැදගත්ම වෙනස - Universal Link Structure
+        // මෙන්න මෙතැන සිතියම් ලින්ක් එක නිවැරදි කර ඇත
         const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + loc.lat + "," + loc.lon;
         
         document.getElementById('detailsContent').innerHTML = `
@@ -138,7 +138,7 @@
         let input = document.getElementById('search').value.toLowerCase();
         let cards = document.getElementsByClassName('card');
         for (let i = 0; i < cards.length; i++) {
-            let name = cards[i].getAttribute('data-name').toLowerCase();
+            let name = locations[i].name_en.toLowerCase() + " " + locations[i].name_si;
             cards[i].style.display = name.includes(input) ? "block" : "none";
         }
     }
