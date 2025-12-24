@@ -102,14 +102,15 @@
 
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
-        // මෙන්න මෙතැන සිතියම් ලින්ක් එක නිවැරදි කර ඇත - Google Official Search API
-        const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + loc.lat + "," + loc.lon;
+        
+        // Android Deep Linking fix: Using geo protocol to force open maps
+        const mapUrl = "geo:" + loc.lat + "," + loc.lon + "?q=" + loc.lat + "," + loc.lon + "(" + loc.name_en + ")";
         
         document.getElementById('detailsContent').innerHTML = `
             <h2 style="color:#1a73e8">${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
             <img src="${loc.img}" class="details-img">
             <p style="font-size:16px; line-height:1.6">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
-            <a href="${mapUrl}" target="_blank" class="map-link">${translations[currentLang].map}</a>`;
+            <a href="${mapUrl}" class="map-link">${translations[currentLang].map}</a>`;
         showPopup('detailsPage');
     }
 
