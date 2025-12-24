@@ -7,6 +7,30 @@
     <style>
         :root { --primary: #1a73e8; --secondary: #ff9f43; --bg: #f8f9fa; }
         body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--bg); color: #333; overflow-x: hidden; }
+        
+        /* Splash Screen Style */
+        #splash-screen {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/3293148/pexels-photo-3293148.jpeg');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            color: white;
+            text-align: center;
+            transition: opacity 0.5s ease;
+        }
+        .splash-title { font-size: 32px; font-weight: bold; margin-top: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
+        .loader { width: 50px; height: 50px; border: 5px solid #fff; border-bottom-color: var(--secondary); border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; margin-top: 20px; }
+        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Main Content Style */
+        #main-content { display: none; }
+        
         .header { background: var(--primary); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 0 0 20px 20px; }
         .lang-btn { background: var(--secondary); border: none; padding: 8px 18px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 12px; }
         .search-bar { width: 90%; padding: 12px 20px; border-radius: 30px; border: none; font-size: 16px; outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
@@ -21,7 +45,7 @@
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; padding: 25px; box-sizing: border-box; overflow-y: auto; }
         .close-btn { background: #ff4757; color: white; border: none; padding: 10px 18px; border-radius: 12px; float: right; font-weight: bold; cursor: pointer; }
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin: 20px 0; }
-        .map-link { display: block; background: #28a745; color: white; text-align: center; padding: 18px; text-decoration: none; border-radius: 15px; margin-top: 20px; font-weight: bold; font-size: 18px; box-shadow: 0 4px 10px rgba(40,167,69,0.3); }
+        .map-link { display: block; background: #28a745; color: white; text-align: center; padding: 18px; text-decoration: none; border-radius: 15px; margin-top: 20px; font-weight: bold; font-size: 18px; }
         .emerg-card { background: #fff5f5; border: 1px solid #ffcccc; padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
         .call-btn { background: #d9534f; color: white; padding: 8px 15px; border-radius: 10px; text-decoration: none; font-weight: bold; }
         .converter { background: #f0f4f8; padding: 20px; border-radius: 20px; text-align: center; }
@@ -30,43 +54,61 @@
 </head>
 <body>
 
-<div class="header">
-    <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
-    <h2 id="mainTitle">අපේ ලංකා Guide 🇱🇰</h2>
-    <input type="text" class="search-bar" id="search" placeholder="ස්ථානයක් සොයන්න..." onkeyup="searchFn()">
+<div id="splash-screen">
+    <img src="https://cdn-icons-png.flaticon.com/512/321/321256.png" width="100">
+    <div class="splash-title">Welcome to<br>Sri Lanka</div>
+    <span class="loader"></span>
 </div>
 
-<div class="nav-bar">
-    <div class="nav-item" onclick="showPopup('emergPage')">🚨 <br><span id="n1">හදිසි ඇමතුම්</span></div>
-    <div class="nav-item" onclick="showPopup('currencyPage')">💰 <br><span id="n2">මුදල් ඒකක</span></div>
-</div>
+<div id="main-content">
+    <div class="header">
+        <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
+        <h2 id="mainTitle">අපේ ලංකා Guide 🇱🇰</h2>
+        <input type="text" class="search-bar" id="search" placeholder="ස්ථානයක් සොයන්න..." onkeyup="searchFn()">
+    </div>
 
-<div class="container" id="locationList"></div>
+    <div class="nav-bar">
+        <div class="nav-item" onclick="showPopup('emergPage')">🚨 <br><span id="n1">හදිසි ඇමතුම්</span></div>
+        <div class="nav-item" onclick="showPopup('currencyPage')">💰 <br><span id="n2">මුදල් ඒකක</span></div>
+    </div>
 
-<div id="emergPage" class="overlay">
-    <button class="close-btn" onclick="closePopups()">Close X</button>
-    <h2 id="t1" style="margin-top: 40px;">හදිසි ඇමතුම් සේවා</h2>
-    <div class="emerg-card"><span>Tourist Police</span><a href="tel:1912" class="call-btn">Call 1912</a></div>
-    <div class="emerg-card"><span>Ambulance</span><a href="tel:1990" class="call-btn">Call 1990</a></div>
-    <div class="emerg-card"><span>Police</span><a href="tel:119" class="call-btn">Call 119</a></div>
-</div>
+    <div class="container" id="locationList"></div>
 
-<div id="currencyPage" class="overlay">
-    <button class="close-btn" onclick="closePopups()">Close X</button>
-    <h2 style="margin-top: 40px;">Currency Converter</h2>
-    <div class="converter">
-        <p id="t2">ඇතුළත් කරන්න (USD $):</p>
-        <input type="number" id="usdInput" class="conv-input" placeholder="0.00" oninput="convert()">
-        <h2 style="color: #28a745;">LKR: <span id="lkrResult">0.00</span></h2>
+    <div id="emergPage" class="overlay">
+        <button class="close-btn" onclick="closePopups()">Close X</button>
+        <h2 id="t1" style="margin-top: 40px;">හදිසි ඇමතුම් සේවා</h2>
+        <div class="emerg-card"><span>Tourist Police</span><a href="tel:1912" class="call-btn">Call 1912</a></div>
+        <div class="emerg-card"><span>Ambulance</span><a href="tel:1990" class="call-btn">Call 1990</a></div>
+        <div class="emerg-card"><span>Police</span><a href="tel:119" class="call-btn">Call 119</a></div>
+    </div>
+
+    <div id="currencyPage" class="overlay">
+        <button class="close-btn" onclick="closePopups()">Close X</button>
+        <h2 style="margin-top: 40px;">Currency Converter</h2>
+        <div class="converter">
+            <p id="t2">ඇතුළත් කරන්න (USD $):</p>
+            <input type="number" id="usdInput" class="conv-input" placeholder="0.00" oninput="convert()">
+            <h2 style="color: #28a745;">LKR: <span id="lkrResult">0.00</span></h2>
+        </div>
+    </div>
+
+    <div id="detailsPage" class="overlay">
+        <button class="close-btn" onclick="closePopups()">Close X</button>
+        <div id="detailsContent" style="margin-top: 40px;"></div>
     </div>
 </div>
 
-<div id="detailsPage" class="overlay">
-    <button class="close-btn" onclick="closePopups()">Close X</button>
-    <div id="detailsContent" style="margin-top: 40px;"></div>
-</div>
-
 <script>
+    // Splash screen timer
+    setTimeout(() => {
+        document.getElementById('splash-screen').style.opacity = '0';
+        setTimeout(() => {
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            render();
+        }, 500);
+    }, 3000); // තත්පර 3ක් පෙන්වයි
+
     let currentLang = 'si';
     const rate = 300;
 
@@ -102,9 +144,6 @@
 
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
-        
-        // Android සදහා සෘජු Intent එකක් (geo:) භාවිතා කිරීම
-        // මෙය Redirect Notice මඟ හැරීමට ඇති හොඳම ක්‍රමයයි.
         const mapUrl = "geo:" + loc.lat + "," + loc.lon + "?q=" + loc.lat + "," + loc.lon + "(" + encodeURIComponent(loc.name_en) + ")";
         
         document.getElementById('detailsContent').innerHTML = `
@@ -144,7 +183,6 @@
             cards[i].style.display = name.includes(input) ? "block" : "none";
         }
     }
-    render();
 </script>
 </body>
 </html>
