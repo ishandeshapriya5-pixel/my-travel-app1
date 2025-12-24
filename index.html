@@ -103,15 +103,15 @@
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
         
-        // Google සමාගම විසින් නිර්දේශ කරන "Standard Search URL" එක. 
-        // මෙය Redirect Notice එක මඟහැර කෙලින්ම සිතියම පෙන්වීමට වැඩි ඉඩක් ඇත.
-        const mapUrl = "https://www.google.com/maps/search/?api=1&query=" + loc.lat + "," + loc.lon;
+        // Android සදහා සෘජු Intent එකක් (geo:) භාවිතා කිරීම
+        // මෙය Redirect Notice මඟ හැරීමට ඇති හොඳම ක්‍රමයයි.
+        const mapUrl = "geo:" + loc.lat + "," + loc.lon + "?q=" + loc.lat + "," + loc.lon + "(" + encodeURIComponent(loc.name_en) + ")";
         
         document.getElementById('detailsContent').innerHTML = `
             <h2 style="color:#1a73e8">${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
             <img src="${loc.img}" class="details-img">
             <p style="font-size:16px; line-height:1.6">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
-            <a href="${mapUrl}" target="_blank" class="map-link">${translations[currentLang].map}</a>`;
+            <a href="${mapUrl}" class="map-link">${translations[currentLang].map}</a>`;
         showPopup('detailsPage');
     }
 
