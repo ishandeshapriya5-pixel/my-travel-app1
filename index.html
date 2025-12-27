@@ -4,55 +4,61 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visit Sri Lanka Pro</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Lzf3Y4G/sri-lanka-icon-512.png">
     <style>
-        :root { --primary: #b01818; --secondary: #ff9f43; --bg: #f8f9fa; }
+        :root { --primary: #007bff; --secondary: #ff9f43; --bg: #f4f7f6; }
         body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: #333; }
         
-        /* Splash Screen */
+        /* නව Splash Screen එක */
         #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #ffffff; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 9999;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 3000;
             transition: opacity 0.8s ease;
         }
-        .splash-icon { font-size: 80px; animation: bounce 2s infinite; }
-        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
-        .splash-text { font-size: 26px; font-weight: 800; color: var(--primary); letter-spacing: 1px; margin-top: 10px; }
+        .splash-logo { width: 150px; height: 150px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .splash-text { margin-top: 20px; font-size: 24px; font-weight: bold; color: #333; letter-spacing: 1px; }
         .loader-bar { width: 150px; height: 4px; background: #eee; margin-top: 20px; border-radius: 10px; overflow: hidden; }
         .loader-progress { width: 0%; height: 100%; background: var(--primary); animation: load 2.5s forwards; }
         @keyframes load { to { width: 100%; } }
 
-        /* App UI Header */
+        /* Main Content Style */
         #main-content { display: none; }
-        .header { background: var(--primary); color: white; padding: 40px 20px; text-align: center; border-radius: 0 0 30px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .lang-btn { background: var(--secondary); border: none; padding: 8px 20px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
-        .search-bar { width: 85%; padding: 15px; border-radius: 30px; border: none; font-size: 16px; outline: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-
-        /* Nav Bar */
-        .nav-bar { display: flex; justify-content: space-around; background: white; padding: 15px; margin: -25px 20px 20px 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); position: relative; z-index: 10; }
-        .nav-item { text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; color: #444; }
-
-        /* Content Area */
-        .container { padding: 10px 20px; display: grid; gap: 20px; }
-        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .card img { width: 100%; height: 200px; object-fit: cover; }
-        .card-content { padding: 20px; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 15px; font-weight: bold; cursor: pointer; }
-
-        /* Overlays (Popups) */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 9000; padding: 25px; box-sizing: border-box; overflow-y: auto; }
-        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; }
-        .map-link { display: block; background: #28a745; color: white; text-align: center; padding: 18px; text-decoration: none; border-radius: 15px; margin-top: 20px; font-weight: bold; }
+        .header { background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .lang-btn { background: #ff9f43; border: none; padding: 8px 20px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .search-bar { width: 85%; padding: 15px 25px; border-radius: 30px; border: none; font-size: 16px; outline: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
-        .currency-box { background: #f9f9f9; padding: 20px; border-radius: 15px; text-align: center; margin-top: 20px; }
-        .currency-box input { width: 80%; padding: 10px; margin-bottom: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 18px; }
+        .nav-bar { display: flex; justify-content: space-around; background: white; padding: 15px; margin: -25px 20px 20px 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); position: relative; z-index: 10; }
+        .nav-item { text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; color: #444; }
+        .nav-item i { font-size: 24px; display: block; margin-bottom: 5px; }
+
+        .container { padding: 10px 20px; display: grid; gap: 20px; }
+        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s transform; }
+        .card:active { transform: scale(0.98); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .card-content h3 { margin: 0 0 10px 0; color: #222; font-size: 22px; }
+        .card-content p { color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 15px; }
+        .btn { background: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 15px; font-weight: bold; font-size: 16px; cursor: pointer; }
+
+        /* Overlays */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; padding: 25px; box-sizing: border-box; overflow-y: auto; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; cursor: pointer; }
+        .details-img { width: 100%; height: 280px; object-fit: cover; border-radius: 25px; margin: 20px 0; }
+        .map-link { display: block; background: #28a745; color: white; text-align: center; padding: 18px; text-decoration: none; border-radius: 18px; margin-top: 25px; font-weight: bold; font-size: 18px; }
     </style>
 </head>
 <body>
 
 <div id="splash-screen">
-    <div class="splash-icon">🦁</div>
+    <img src="https://i.ibb.co/Lzf3Y4G/sri-lanka-icon-512.png" class="splash-logo" alt="Logo">
     <div class="splash-text">Visit Sri Lanka</div>
     <div class="loader-bar"><div class="loader-progress"></div></div>
 </div>
@@ -60,66 +66,58 @@
 <div id="main-content">
     <div class="header">
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
-        <h2 id="mainTitle">Visit Sri Lanka 🇱🇰</h2>
+        <h2 id="mainTitle">අපේ ලංකා Guide 🇱🇰</h2>
         <input type="text" class="search-bar" id="search" placeholder="ස්ථානයක් සොයන්න..." onkeyup="searchFn()">
     </div>
 
     <div class="nav-bar">
-        <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="nav1">හදිසි ඇමතුම්</span></div>
-        <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="nav2">මුදල් ඒකක</span></div>
-        <div class="nav-item" onclick="alert('Weather feature coming soon!')">🌦️<br><span id="nav3">කාලගුණය</span></div>
+        <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
+        <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="n2">මුදල් ඒකක</span></div>
     </div>
 
     <div class="container" id="locationList"></div>
 
     <div id="emergPage" class="overlay">
         <button class="close-btn" onclick="closePopups()">×</button>
-        <h2 id="emTitle" style="margin-top:40px;">Emergency Contacts</h2>
-        <div style="background:#fff3f3; padding:20px; border-radius:20px;">
+        <h2 style="margin-top: 40px;" id="t1">හදිසි ඇමතුම් සේවා</h2>
+        <div style="background:#f9f9f9; padding:20px; border-radius:20px;">
             <p>Tourist Police: <b>1912</b></p>
-            <p>Ambulance (Suwaseriya): <b>1990</b></p>
-            <p>Police Emergency: <b>119</b></p>
-            <p>Accident Ward: <b>011 2691111</b></p>
-        </div>
-    </div>
-
-    <div id="currencyPage" class="overlay">
-        <button class="close-btn" onclick="closePopups()">×</button>
-        <h2 id="curTitle" style="margin-top:40px;">Currency Converter</h2>
-        <div class="currency-box">
-            <p>USD ($) to LKR (රු)</p>
-            <input type="number" id="usdInput" placeholder="Enter USD amount" oninput="convertCurrency()">
-            <h3 id="lkrResult">Result: රු 0.00</h3>
-            <p style="font-size:12px; color:888;">*Approx. Rate: 1 USD = 300 LKR</p>
+            <p>Ambulance: <b>1990</b></p>
+            <p>Police: <b>119</b></p>
         </div>
     </div>
 
     <div id="detailsPage" class="overlay">
         <button class="close-btn" onclick="closePopups()">×</button>
-        <div id="detailsContent" style="margin-top:40px;"></div>
+        <div id="detailsContent" style="margin-top: 40px;"></div>
     </div>
 </div>
 
 <script>
-    // Config
-    const locations = [
-        { id: 1, name_si: "සීගිරිය", name_en: "Sigiriya", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික සීගිරි බලකොටුව සහ ලෝක උරුමයකි.", desc_en: "Ancient rock fortress and a World Heritage site.", lat: 7.9570, lon: 80.7603 },
-        { id: 2, name_si: "මහනුවර", name_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "Sacred city home to the Temple of the Sacred Tooth.", lat: 7.2906, lon: 80.6337 },
-        { id: 3, name_si: "ගාල්ල", name_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "ඓතිහාසික ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ.", desc_en: "Historic Dutch fort and beautiful coastal city.", lat: 6.0331, lon: 80.2176 }
-    ];
-
-    let currentLang = 'si';
-
+    // Splash screen timer
     window.onload = () => {
         setTimeout(() => {
-            document.getElementById('splash-screen').style.opacity = '0';
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
             setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
+                splash.style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 render();
             }, 800);
         }, 3000);
     };
+
+    let currentLang = 'si';
+    const translations = {
+        'si': { title: "අපේ ලංකා Guide 🇱🇰", search: "ස්ථානයක් සොයන්න...", view: "විස්තර බලන්න", n1: "හදිසි ඇමතුම්", n2: "මුදල් ඒකක", map: "Google Map එකෙන් බලන්න 📍" },
+        'en': { title: "Visit Sri Lanka 🇱🇰", search: "Search locations...", view: "View Details", n1: "Emergency", n2: "Currency", map: "View on Google Map 📍" }
+    };
+
+    const locations = [
+        { id: 1, name_si: "සීගිරිය", name_en: "Sigiriya", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික අහස් මාලිගය සහ ලෝක උරුමයකි.", desc_en: "Ancient Sky Palace and a World Heritage site.", lat: 7.9570, lon: 80.7603 },
+        { id: 2, name_si: "මහනුවර", name_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "The sacred city home to the Temple of the Tooth.", lat: 7.2906, lon: 80.6337 },
+        { id: 3, name_si: "ගාල්ල", name_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", lat: 6.0331, lon: 80.2176 }
+    ];
 
     function render() {
         const list = document.getElementById('locationList');
@@ -130,27 +128,11 @@
                     <img src="${loc.img}">
                     <div class="card-content">
                         <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
-                        <p style="color:#666; font-size:14px;">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
-                        <button class="btn" onclick="showDetails(${loc.id})">${currentLang === 'si' ? 'විස්තර බලන්න' : 'View Details'}</button>
+                        <p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+                        <button class="btn" onclick="showDetails(${loc.id})">${translations[currentLang].view}</button>
                     </div>
                 </div>`;
         });
-    }
-
-    function toggleLanguage() {
-        currentLang = currentLang === 'si' ? 'en' : 'si';
-        document.getElementById('langBtn').innerText = currentLang === 'si' ? 'English' : 'සිංහල';
-        document.getElementById('mainTitle').innerText = currentLang === 'si' ? 'අපේ ලංකා Guide 🇱🇰' : 'Visit Sri Lanka 🇱🇰';
-        document.getElementById('nav1').innerText = currentLang === 'si' ? 'හදිසි ඇමතුම්' : 'Emergency';
-        document.getElementById('nav2').innerText = currentLang === 'si' ? 'මුදල් ඒකක' : 'Currency';
-        document.getElementById('nav3').innerText = currentLang === 'si' ? 'කාලගුණය' : 'Weather';
-        render();
-    }
-
-    function convertCurrency() {
-        let usd = document.getElementById('usdInput').value;
-        let lkr = usd * 300; // Manual static rate
-        document.getElementById('lkrResult').innerText = `Result: රු ${lkr.toLocaleString()}.00`;
     }
 
     function showDetails(id) {
@@ -158,23 +140,31 @@
         const mapUrl = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`;
         document.getElementById('detailsContent').innerHTML = `
             <h2>${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
-            <img src="${loc.img}" style="width:100%; border-radius:20px; margin:15px 0;">
-            <p style="font-size:17px; line-height:1.6;">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
-            <a href="${mapUrl}" target="_blank" class="map-link">View on Google Maps 📍</a>`;
+            <img src="${loc.img}" class="details-img">
+            <p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+            <a href="${mapUrl}" target="_blank" class="map-link">${translations[currentLang].map}</a>`;
         showPopup('detailsPage');
     }
 
-    function searchFn() {
-        let input = document.getElementById('search').value.toLowerCase();
-        let cards = document.getElementsByClassName('card');
-        for (let i = 0; i < cards.length; i++) {
-            let txt = locations[i].name_si + locations[i].name_en;
-            cards[i].style.display = txt.toLowerCase().includes(input) ? "block" : "none";
-        }
+    function toggleLanguage() {
+        currentLang = currentLang === 'si' ? 'en' : 'si';
+        document.getElementById('langBtn').innerText = currentLang === 'si' ? 'English' : 'සිංහල';
+        document.getElementById('mainTitle').innerText = translations[currentLang].title;
+        document.getElementById('search').placeholder = translations[currentLang].search;
+        render();
     }
 
     function showPopup(id) { document.getElementById(id).style.display = "block"; }
     function closePopups() { document.querySelectorAll('.overlay').forEach(el => el.style.display = 'none'); }
+    
+    function searchFn() {
+        let input = document.getElementById('search').value.toLowerCase();
+        let cards = document.getElementsByClassName('card');
+        for (let i = 0; i < cards.length; i++) {
+            let name = locations[i].name_en.toLowerCase() + " " + locations[i].name_si;
+            cards[i].style.display = name.includes(input) ? "block" : "none";
+        }
+    }
 </script>
 </body>
 </html>
