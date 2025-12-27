@@ -4,60 +4,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visit Sri Lanka Pro</title>
+    <link rel="icon" type="image/png" href="https://i.ibb.co/Lzf3Y4G/sri-lanka-icon-512.png">
     <style>
-        :root { --primary: #1a73e8; --secondary: #ff9f43; --bg: #f8f9fa; }
-        body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--bg); color: #333; overflow-x: hidden; }
+        :root { --primary: #007bff; --secondary: #ff9f43; --bg: #f4f7f6; }
+        body { font-family: 'Poppins', sans-serif; margin: 0; background: var(--bg); color: #333; }
         
-        /* Splash Screen Style */
+        /* නව Splash Screen එක */
         #splash-screen {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://images.pexels.com/photos/3293148/pexels-photo-3293148.jpeg');
-            background-size: cover;
-            background-position: center;
+            background: #ffffff;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 2000;
-            color: white;
-            text-align: center;
-            transition: opacity 0.5s ease;
+            z-index: 3000;
+            transition: opacity 0.8s ease;
         }
-        .splash-title { font-size: 32px; font-weight: bold; margin-top: 10px; text-shadow: 2px 2px 10px rgba(0,0,0,0.5); }
-        .loader { width: 50px; height: 50px; border: 5px solid #fff; border-bottom-color: var(--secondary); border-radius: 50%; display: inline-block; box-sizing: border-box; animation: rotation 1s linear infinite; margin-top: 20px; }
-        @keyframes rotation { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        .splash-logo { width: 150px; height: 150px; border-radius: 25px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+        .splash-text { margin-top: 20px; font-size: 24px; font-weight: bold; color: #333; letter-spacing: 1px; }
+        .loader-bar { width: 150px; height: 4px; background: #eee; margin-top: 20px; border-radius: 10px; overflow: hidden; }
+        .loader-progress { width: 0%; height: 100%; background: var(--primary); animation: load 2.5s forwards; }
+        @keyframes load { to { width: 100%; } }
 
         /* Main Content Style */
         #main-content { display: none; }
+        .header { background: linear-gradient(135deg, #007bff, #0056b3); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 30px 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .lang-btn { background: #ff9f43; border: none; padding: 8px 20px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 15px; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        .search-bar { width: 85%; padding: 15px 25px; border-radius: 30px; border: none; font-size: 16px; outline: none; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
         
-        .header { background: var(--primary); color: white; padding: 20px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 0 0 20px 20px; }
-        .lang-btn { background: var(--secondary); border: none; padding: 8px 18px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 12px; }
-        .search-bar { width: 90%; padding: 12px 20px; border-radius: 30px; border: none; font-size: 16px; outline: none; box-shadow: inset 0 2px 5px rgba(0,0,0,0.1); }
-        .nav-bar { display: flex; background: white; padding: 12px; margin: 15px; border-radius: 15px; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        .nav-item { flex: 1; text-align: center; font-size: 13px; font-weight: 600; cursor: pointer; color: #555; }
-        .container { padding: 15px; display: grid; gap: 20px; }
-        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 6px 15px rgba(0,0,0,0.08); transition: 0.3s; }
-        .card img { width: 100%; height: 210px; object-fit: cover; }
-        .card-content { padding: 18px; }
-        .card-content h3 { margin: 0 0 8px 0; color: var(--primary); font-size: 20px; }
-        .btn { background: var(--primary); color: white; border: none; padding: 12px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1000; padding: 25px; box-sizing: border-box; overflow-y: auto; }
-        .close-btn { background: #ff4757; color: white; border: none; padding: 10px 18px; border-radius: 12px; float: right; font-weight: bold; cursor: pointer; }
-        .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin: 20px 0; }
-        .map-link { display: block; background: #28a745; color: white; text-align: center; padding: 18px; text-decoration: none; border-radius: 15px; margin-top: 20px; font-weight: bold; font-size: 18px; }
-        .emerg-card { background: #fff5f5; border: 1px solid #ffcccc; padding: 15px; border-radius: 15px; margin-bottom: 12px; display: flex; justify-content: space-between; align-items: center; }
-        .call-btn { background: #d9534f; color: white; padding: 8px 15px; border-radius: 10px; text-decoration: none; font-weight: bold; }
-        .converter { background: #f0f4f8; padding: 20px; border-radius: 20px; text-align: center; }
-        .conv-input { width: 80%; padding: 15px; border-radius: 12px; border: 1px solid #ddd; font-size: 20px; text-align: center; margin: 15px 0; }
+        .nav-bar { display: flex; justify-content: space-around; background: white; padding: 15px; margin: -25px 20px 20px 20px; border-radius: 20px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); position: relative; z-index: 10; }
+        .nav-item { text-align: center; font-size: 14px; font-weight: 600; cursor: pointer; color: #444; }
+        .nav-item i { font-size: 24px; display: block; margin-bottom: 5px; }
+
+        .container { padding: 10px 20px; display: grid; gap: 20px; }
+        .card { background: white; border-radius: 25px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); transition: 0.3s transform; }
+        .card:active { transform: scale(0.98); }
+        .card img { width: 100%; height: 220px; object-fit: cover; }
+        .card-content { padding: 20px; }
+        .card-content h3 { margin: 0 0 10px 0; color: #222; font-size: 22px; }
+        .card-content p { color: #666; font-size: 14px; line-height: 1.5; margin-bottom: 15px; }
+        .btn { background: #007bff; color: white; border: none; padding: 12px; width: 100%; border-radius: 15px; font-weight: bold; font-size: 16px; cursor: pointer; }
+
+        /* Overlays */
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 2000; padding: 25px; box-sizing: border-box; overflow-y: auto; animation: slideUp 0.4s ease; }
+        @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; cursor: pointer; }
+        .details-img { width: 100%; height: 280px; object-fit: cover; border-radius: 25px; margin: 20px 0; }
+        .map-link { display: block; background: #28a745; color: white; text-align: center; padding: 18px; text-decoration: none; border-radius: 18px; margin-top: 25px; font-weight: bold; font-size: 18px; }
     </style>
 </head>
 <body>
 
 <div id="splash-screen">
-    <img src="https://cdn-icons-png.flaticon.com/512/321/321256.png" width="100">
-    <div class="splash-title">Welcome to<br>Sri Lanka</div>
-    <span class="loader"></span>
+    <img src="https://i.ibb.co/Lzf3Y4G/sri-lanka-icon-512.png" class="splash-logo" alt="Logo">
+    <div class="splash-text">Visit Sri Lanka</div>
+    <div class="loader-bar"><div class="loader-progress"></div></div>
 </div>
 
 <div id="main-content">
@@ -68,62 +71,52 @@
     </div>
 
     <div class="nav-bar">
-        <div class="nav-item" onclick="showPopup('emergPage')">🚨 <br><span id="n1">හදිසි ඇමතුම්</span></div>
-        <div class="nav-item" onclick="showPopup('currencyPage')">💰 <br><span id="n2">මුදල් ඒකක</span></div>
+        <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
+        <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="n2">මුදල් ඒකක</span></div>
     </div>
 
     <div class="container" id="locationList"></div>
 
     <div id="emergPage" class="overlay">
-        <button class="close-btn" onclick="closePopups()">Close X</button>
-        <h2 id="t1" style="margin-top: 40px;">හදිසි ඇමතුම් සේවා</h2>
-        <div class="emerg-card"><span>Tourist Police</span><a href="tel:1912" class="call-btn">Call 1912</a></div>
-        <div class="emerg-card"><span>Ambulance</span><a href="tel:1990" class="call-btn">Call 1990</a></div>
-        <div class="emerg-card"><span>Police</span><a href="tel:119" class="call-btn">Call 119</a></div>
-    </div>
-
-    <div id="currencyPage" class="overlay">
-        <button class="close-btn" onclick="closePopups()">Close X</button>
-        <h2 style="margin-top: 40px;">Currency Converter</h2>
-        <div class="converter">
-            <p id="t2">ඇතුළත් කරන්න (USD $):</p>
-            <input type="number" id="usdInput" class="conv-input" placeholder="0.00" oninput="convert()">
-            <h2 style="color: #28a745;">LKR: <span id="lkrResult">0.00</span></h2>
+        <button class="close-btn" onclick="closePopups()">×</button>
+        <h2 style="margin-top: 40px;" id="t1">හදිසි ඇමතුම් සේවා</h2>
+        <div style="background:#f9f9f9; padding:20px; border-radius:20px;">
+            <p>Tourist Police: <b>1912</b></p>
+            <p>Ambulance: <b>1990</b></p>
+            <p>Police: <b>119</b></p>
         </div>
     </div>
 
     <div id="detailsPage" class="overlay">
-        <button class="close-btn" onclick="closePopups()">Close X</button>
+        <button class="close-btn" onclick="closePopups()">×</button>
         <div id="detailsContent" style="margin-top: 40px;"></div>
     </div>
 </div>
 
 <script>
     // Splash screen timer
-    setTimeout(() => {
-        document.getElementById('splash-screen').style.opacity = '0';
+    window.onload = () => {
         setTimeout(() => {
-            document.getElementById('splash-screen').style.display = 'none';
-            document.getElementById('main-content').style.display = 'block';
-            render();
-        }, 500);
-    }, 3000); // තත්පර 3ක් පෙන්වයි
+            const splash = document.getElementById('splash-screen');
+            splash.style.opacity = '0';
+            setTimeout(() => {
+                splash.style.display = 'none';
+                document.getElementById('main-content').style.display = 'block';
+                render();
+            }, 800);
+        }, 3000);
+    };
 
     let currentLang = 'si';
-    const rate = 300;
-
     const translations = {
-        'si': { title: "අපේ ලංකා Guide 🇱🇰", search: "ස්ථානයක් සොයන්න...", view: "විස්තර බලන්න", n1: "හදිසි ඇමතුම්", n2: "මුදල් ඒකක", t1: "හදිසි ඇමතුම් සේවා", t2: "ඇතුළත් කරන්න (USD $):", map: "Google Map එකෙන් බලන්න 📍" },
-        'en': { title: "Visit Sri Lanka 🇱🇰", search: "Search locations...", view: "View Details", n1: "Emergency", n2: "Currency", t1: "Emergency Services", t2: "Enter Amount (USD $):", map: "View on Google Map 📍" }
+        'si': { title: "අපේ ලංකා Guide 🇱🇰", search: "ස්ථානයක් සොයන්න...", view: "විස්තර බලන්න", n1: "හදිසි ඇමතුම්", n2: "මුදල් ඒකක", map: "Google Map එකෙන් බලන්න 📍" },
+        'en': { title: "Visit Sri Lanka 🇱🇰", search: "Search locations...", view: "View Details", n1: "Emergency", n2: "Currency", map: "View on Google Map 📍" }
     };
 
     const locations = [
         { id: 1, name_si: "සීගිරිය", name_en: "Sigiriya", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික අහස් මාලිගය සහ ලෝක උරුමයකි.", desc_en: "Ancient Sky Palace and a World Heritage site.", lat: 7.9570, lon: 80.7603 },
         { id: 2, name_si: "මහනුවර", name_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "The sacred city home to the Temple of the Tooth.", lat: 7.2906, lon: 80.6337 },
-        { id: 3, name_si: "ගාල්ල", name_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", lat: 6.0331, lon: 80.2176 },
-        { id: 4, name_si: "නුවරඑළිය", name_en: "Nuwara Eliya", img: "https://images.pexels.com/photos/10103756/pexels-photo-10103756.jpeg", desc_si: "සීතල දේශගුණය සහ මනරම් තේ වතු යායවල්.", desc_en: "Cool climate and picturesque tea estates.", lat: 6.9497, lon: 80.7891 },
-        { id: 5, name_si: "ඇල්ල", name_en: "Ella", img: "https://images.pexels.com/photos/10545226/pexels-photo-10545226.jpeg", desc_si: "ආරුක්කු නමය පාලම සහ රාවණා ඇල්ල.", desc_en: "Nine Arch Bridge and Ravana Falls.", lat: 6.8724, lon: 81.0453 },
-        { id: 6, name_si: "මිරිස්ස", name_en: "Mirissa", img: "https://images.pexels.com/photos/12301538/pexels-photo-12301538.jpeg", desc_si: "තල්මසුන් නැරඹීම සඳහා හොඳම ස්ථානයකි.", desc_en: "One of the best places for whale watching.", lat: 5.9483, lon: 80.4716 }
+        { id: 3, name_si: "ගාල්ල", name_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", lat: 6.0331, lon: 80.2176 }
     ];
 
     function render() {
@@ -144,32 +137,21 @@
 
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
-        const mapUrl = "geo:" + loc.lat + "," + loc.lon + "?q=" + loc.lat + "," + loc.lon + "(" + encodeURIComponent(loc.name_en) + ")";
-        
+        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`;
         document.getElementById('detailsContent').innerHTML = `
-            <h2 style="color:#1a73e8">${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
+            <h2>${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
             <img src="${loc.img}" class="details-img">
-            <p style="font-size:16px; line-height:1.6">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
-            <a href="${mapUrl}" class="map-link">${translations[currentLang].map}</a>`;
+            <p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+            <a href="${mapUrl}" target="_blank" class="map-link">${translations[currentLang].map}</a>`;
         showPopup('detailsPage');
     }
 
     function toggleLanguage() {
         currentLang = currentLang === 'si' ? 'en' : 'si';
-        const t = translations[currentLang];
         document.getElementById('langBtn').innerText = currentLang === 'si' ? 'English' : 'සිංහල';
-        document.getElementById('mainTitle').innerText = t.title;
-        document.getElementById('search').placeholder = t.search;
-        document.getElementById('n1').innerText = t.n1;
-        document.getElementById('n2').innerText = t.n2;
-        document.getElementById('t1').innerText = t.t1;
-        document.getElementById('t2').innerText = t.t2;
+        document.getElementById('mainTitle').innerText = translations[currentLang].title;
+        document.getElementById('search').placeholder = translations[currentLang].search;
         render();
-    }
-
-    function convert() {
-        let val = document.getElementById('usdInput').value;
-        document.getElementById('lkrResult').innerText = (val * rate).toLocaleString();
     }
 
     function showPopup(id) { document.getElementById(id).style.display = "block"; }
