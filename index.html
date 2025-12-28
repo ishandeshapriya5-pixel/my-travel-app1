@@ -50,12 +50,13 @@
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; }
         
-        /* Advanced Details Page UI */
+        /* New Detailed Interface */
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .location-badge { display: inline-block; background: #e8f0fe; color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-top: 10px; }
+        .info-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-top: 15px; }
+        .info-title { font-weight: bold; color: var(--primary); margin-bottom: 5px; display: block; border-bottom: 1px solid #eee; padding-bottom: 5px; }
         .contact-section { background: #fff8f0; border: 1px solid #ffeeba; border-radius: 15px; padding: 15px; margin-top: 20px; }
         .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .contact-item:last-child { border-bottom: none; }
         .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
 
@@ -145,29 +146,26 @@
         'si': { 
             title: "අපේ ලංකා Guide 🇱🇰", search: "ස්ථානයක් සොයන්න...", view: "විස්තර බලන්න", 
             n1: "හදිසි ඇමතුම්", n2: "මුදල් ඒකක", n3: "කාලගුණය", t1: "හදිසි ඇමතුම් සේවා", 
-            t2: "මුදල් පරිවර්තකය (USD to LKR)", t3: "සජීවී කාලගුණය 🌤️", map: "මඟ පෙන්වීම (Google Maps) 📍",
+            t2: "මුදල් පරිවර්තකය (USD to LKR)", t3: "සජීවී කාලගුණය 🌤️", map: "Google Map එකෙන් බලන්න 📍",
             c0: "සියල්ල", c1: "🏛️ සංස්කෘතික", c2: "⛰️ සොබාදහම", c3: "🏖️ වෙරළ", c4: "🐘 වනජීවී",
-            loading: "පූරණය වෙමින් පවතී...", error: "දත්ත ලබාගැනීමට නොහැකි විය.",
-            location: "ප්‍රදේශය: ", emergency_title: "ප්‍රදේශයේ හදිසි අංක 📞"
+            loc: "ස්ථානය:", about: "ස්ථානය ගැන:", how: "ලඟා වන ආකාරය:", contact: "ප්‍රදේශයේ හදිසි අංක 📞"
         },
         'en': { 
             title: "Visit Sri Lanka 🇱🇰", search: "Search locations...", view: "View Details", 
             n1: "Emergency", n2: "Currency", n3: "Weather", t1: "Emergency Services", 
-            t2: "Currency Converter (USD to LKR)", t3: "Live Weather 🌤️", map: "Get Directions (Maps) 📍",
+            t2: "Currency Converter (USD to LKR)", t3: "Live Weather 🌤️", map: "View on Google Map 📍",
             c0: "All", c1: "🏛️ Culture", c2: "⛰️ Nature", c3: "🏖️ Beach", c4: "🐘 Wildlife",
-            loading: "Loading...", error: "Could not load data.",
-            location: "Location: ", emergency_title: "Regional Emergency 📞"
+            loc: "Location:", about: "About:", how: "How to reach:", contact: "Regional Emergency 📞"
         }
     };
 
     const locations = [
-        { id: 1, cat: "culture", name_si: "සීගිරිය", name_en: "Sigiriya", district_si: "මාතලේ", district_en: "Matale", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික අහස් මාලිගය සහ ලෝක උරුමයකි.", desc_en: "Ancient Sky Palace and a World Heritage site.", lat: 7.9570, lon: 80.7603, police: "066-2284722" },
-        { id: 2, cat: "culture", name_si: "මහනුවර", name_en: "Kandy", district_si: "මහනුවර", district_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "The sacred city home to the Temple of the Tooth.", lat: 7.2906, lon: 80.6337, police: "081-2222222" },
-        { id: 3, cat: "culture", name_si: "ගාල්ල", name_en: "Galle", district_si: "ගාල්ල", district_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", lat: 6.0331, lon: 80.2176, police: "091-2232222" },
-        { id: 4, cat: "nature", name_si: "නුවරඑළිය", name_en: "Nuwara Eliya", district_si: "නුවරඑළිය", district_en: "Nuwara Eliya", img: "https://images.pexels.com/photos/11252119/pexels-photo-11252119.jpeg", desc_si: "සිසිල් කාලගුණය සහිත 'පුංචි එංගලන්තය'.", desc_en: "The cool 'Little England' of Sri Lanka.", lat: 6.9497, lon: 80.7891, police: "052-2222222" },
-        { id: 5, cat: "nature", name_si: "ඇල්ල", name_en: "Ella", district_si: "බදුල්ල", district_en: "Badulla", img: "https://images.pexels.com/photos/13442111/pexels-photo-13442111.jpeg", desc_si: "ආරුක්කු නවයේ පාලම සහ සුන්දර කඳු පන්ති.", desc_en: "Nine Arch Bridge and breathtaking views.", lat: 6.8744, lon: 81.0439, police: "057-2222222" },
-        { id: 6, cat: "beach", name_si: "මිරිස්ස", name_en: "Mirissa", district_si: "මාතර", district_en: "Matara", img: "https://images.pexels.com/photos/10100233/pexels-photo-10100233.jpeg", desc_si: "තල්මසුන් නැරඹීමට කදිම වෙරළකි.", desc_en: "Perfect beach for whale watching.", lat: 5.9483, lon: 80.4533, police: "041-2222222" }
-        // තව ස්ථාන 16ම මෙලෙස update කර ගත හැක...
+        { id: 1, cat: "culture", name_si: "සීගිරිය", name_en: "Sigiriya", district_si: "මාතලේ", district_en: "Matale", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "ඓතිහාසික අහස් මාලිගය සහ ලෝක උරුමයකි.", desc_en: "Ancient Sky Palace and a World Heritage site.", reach_si: "දඹුල්ල නගරයේ සිට බස් රථයකින් හෝ කුලී රථයකින් පැමිණිය හැක.", reach_en: "Can be reached by bus or taxi from Dambulla town.", lat: 7.9570, lon: 80.7603, police: "066-2284722" },
+        { id: 2, cat: "culture", name_si: "මහනුවර", name_en: "Kandy", district_si: "මහනුවර", district_en: "Kandy", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "ශ්‍රී දළදා මාලිගාව පිහිටි පූජනීය නගරය.", desc_en: "The sacred city home to the Temple of the Tooth.", reach_si: "කොළඹ සිට දුම්රියෙන් හෝ බස් රථයෙන් ළඟා විය හැක.", reach_en: "Accessible by train or bus from Colombo.", lat: 7.2906, lon: 80.6337, police: "081-2222222" },
+        { id: 3, cat: "culture", name_si: "ගාල්ල", name_en: "Galle", district_si: "ගාල්ල", district_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", reach_si: "දක්ෂිණ අධිවේගී මාර්ගය ඔස්සේ හෝ වෙරළබඩ දුම්රියෙන්.", reach_en: "Via Southern Expressway or coastal railway.", lat: 6.0331, lon: 80.2176, police: "091-2232222" },
+        { id: 4, cat: "nature", name_si: "නුවරඑළිය", name_en: "Nuwara Eliya", district_si: "නුවරඑළිය", district_en: "Nuwara Eliya", img: "https://images.pexels.com/photos/11252119/pexels-photo-11252119.jpeg", desc_si: "ශ්‍රී ලංකාවේ සිසිල්ම නගරය වන මෙය 'පුංචි එංගලන්තය' ලෙසද හැඳින්වේ.", desc_en: "The coolest city in Sri Lanka, also known as 'Little England'.", reach_si: "නනුවඔය දුම්රිය ස්ථානය හරහා හෝ බස් රථයකින්.", reach_en: "Via Nanu Oya railway station or by bus.", lat: 6.9497, lon: 80.7891, police: "052-2222222" },
+        { id: 5, cat: "nature", name_si: "ඇල්ල", name_en: "Ella", district_si: "බදුල්ල", district_en: "Badulla", img: "https://images.pexels.com/photos/13442111/pexels-photo-13442111.jpeg", desc_si: "සුන්දර දිය ඇලි සහ ආරුක්කු නවයේ පාලම මෙහි පිහිටා ඇත.", desc_en: "Beautiful waterfalls and Nine Arch Bridge are located here.", reach_si: "උඩරට දුම්රිය මාර්ගය හරහා පැමිණීම වඩාත් සුන්දර වේ.", reach_en: "The Upcountry railway line is the most scenic route.", lat: 6.8744, lon: 81.0439, police: "057-2222222" },
+        { id: 6, cat: "beach", name_si: "මිරිස්ස", name_en: "Mirissa", district_si: "මාතර", district_en: "Matara", img: "https://images.pexels.com/photos/10100233/pexels-photo-10100233.jpeg", desc_si: "තල්මසුන් නැරඹීම සඳහා ලොව ප්‍රසිද්ධ වෙරළකි.", desc_en: "World famous beach for whale watching.", reach_si: "ගාල්ලේ සිට බස් රථයකින් විනාඩි 45 කින් ළඟා විය හැක.", reach_en: "45 minutes from Galle by bus.", lat: 5.9483, lon: 80.4533, police: "041-2222222" }
     ];
 
     function render(filter) {
@@ -190,16 +188,26 @@
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
         const t = translations[currentLang];
-        const mapUrl = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`;
+        // කලින් version එකේ තිබූ වැඩ කරන map link ක්‍රමය
+        const mapUrl = `geo:${loc.lat},${loc.lon}?q=${loc.lat},${loc.lon}(${currentLang === 'si' ? loc.name_si : loc.name_en})`;
         
         document.getElementById('detailsContent').innerHTML = `
             <img src="${loc.img}" class="details-img">
             <h2>${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
-            <div class="location-badge">📍 ${t.location} ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
-            <p style="line-height:1.6; color:#555;">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+            <div class="location-badge">📍 ${t.loc} ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
+            
+            <div class="info-card">
+                <span class="info-title">📖 ${t.about}</span>
+                <p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-title">🚌 ${t.how}</span>
+                <p>${currentLang === 'si' ? loc.reach_si : loc.reach_en}</p>
+            </div>
             
             <div class="contact-section">
-                <h4 style="margin:0 0 10px 0;">${t.emergency_title}</h4>
+                <h4 style="margin:0 0 10px 0;">${t.contact}</h4>
                 <div class="contact-item">
                     <span>Police (${currentLang === 'si' ? 'පොලිසිය' : 'Police'})</span>
                     <a href="tel:${loc.police}" class="call-link">📞 Call</a>
@@ -210,21 +218,21 @@
                 </div>
             </div>
 
-            <a href="${mapUrl}" target="_blank" class="map-link">${t.map}</a>
+            <a href="${mapUrl}" class="map-link">${t.map}</a>
             <div style="height:30px;"></div>
         `;
         showPopup('detailsPage');
     }
 
-    // --- පවතින අනෙක් Function වලට හානි නොකර තබා ඇත ---
+    // Weather and other functions kept original to avoid damage
     async function fetchWeather() {
         const weatherBox = document.getElementById('weatherContent');
-        weatherBox.innerHTML = translations[currentLang].loading;
+        weatherBox.innerHTML = translations[currentLang].loading || "Loading...";
         try {
             const response = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
             const data = await response.json();
             weatherBox.innerHTML = `<div class="weather-card"><strong>Colombo</strong> <span>${Math.round(data.current_weather.temperature)}°C</span></div>`;
-        } catch (e) { weatherBox.innerHTML = translations[currentLang].error; }
+        } catch (e) { weatherBox.innerHTML = "Error loading data."; }
     }
 
     function filterCat(cat, btn) {
