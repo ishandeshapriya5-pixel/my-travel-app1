@@ -50,7 +50,6 @@
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; }
         
-        /* New Detailed Interface */
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .location-badge { display: inline-block; background: #e8f0fe; color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-top: 10px; }
         .info-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-top: 15px; }
@@ -148,14 +147,16 @@
             n1: "හදිසි ඇමතුම්", n2: "මුදල් ඒකක", n3: "කාලගුණය", t1: "හදිසි ඇමතුම් සේවා", 
             t2: "මුදල් පරිවර්තකය (USD to LKR)", t3: "සජීවී කාලගුණය 🌤️", map: "Google Map එකෙන් බලන්න 📍",
             c0: "සියල්ල", c1: "🏛️ සංස්කෘතික", c2: "⛰️ සොබාදහම", c3: "🏖️ වෙරළ", c4: "🐘 වනජීවී",
-            loc: "ස්ථානය:", about: "ස්ථානය ගැන:", how: "ලඟා වන ආකාරය:", contact: "ප්‍රදේශයේ හදිසි අංක 📞"
+            loc: "ස්ථානය:", about: "ස්ථානය ගැන:", how: "ලඟා වන ආකාරය:", contact: "ප්‍රදේශයේ හදිසි අංක 📞",
+            weather_error: "කාලගුණ දත්ත ලබාගත නොහැක. කරුණාකර නැවත උත්සාහ කරන්න."
         },
         'en': { 
             title: "Visit Sri Lanka 🇱🇰", search: "Search locations...", view: "View Details", 
             n1: "Emergency", n2: "Currency", n3: "Weather", t1: "Emergency Services", 
             t2: "Currency Converter (USD to LKR)", t3: "Live Weather 🌤️", map: "View on Google Map 📍",
             c0: "All", c1: "🏛️ Culture", c2: "⛰️ Nature", c3: "🏖️ Beach", c4: "🐘 Wildlife",
-            loc: "Location:", about: "About:", how: "How to reach:", contact: "Regional Emergency 📞"
+            loc: "Location:", about: "About:", how: "How to reach:", contact: "Regional Emergency 📞",
+            weather_error: "Error loading weather data. Please try again."
         }
     };
 
@@ -165,7 +166,11 @@
         { id: 3, cat: "culture", name_si: "ගාල්ල", name_en: "Galle", district_si: "ගාල්ල", district_en: "Galle", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "පැරණි ඕලන්ද බලකොටුව සහ සුන්දර වෙරළ තීරය.", desc_en: "Historic Dutch Fort and beautiful coastline.", reach_si: "දක්ෂිණ අධිවේගී මාර්ගය ඔස්සේ හෝ වෙරළබඩ දුම්රියෙන්.", reach_en: "Via Southern Expressway or coastal railway.", lat: 6.0331, lon: 80.2176, police: "091-2232222" },
         { id: 4, cat: "nature", name_si: "නුවරඑළිය", name_en: "Nuwara Eliya", district_si: "නුවරඑළිය", district_en: "Nuwara Eliya", img: "https://images.pexels.com/photos/11252119/pexels-photo-11252119.jpeg", desc_si: "ශ්‍රී ලංකාවේ සිසිල්ම නගරය වන මෙය 'පුංචි එංගලන්තය' ලෙසද හැඳින්වේ.", desc_en: "The coolest city in Sri Lanka, also known as 'Little England'.", reach_si: "නනුවඔය දුම්රිය ස්ථානය හරහා හෝ බස් රථයකින්.", reach_en: "Via Nanu Oya railway station or by bus.", lat: 6.9497, lon: 80.7891, police: "052-2222222" },
         { id: 5, cat: "nature", name_si: "ඇල්ල", name_en: "Ella", district_si: "බදුල්ල", district_en: "Badulla", img: "https://images.pexels.com/photos/13442111/pexels-photo-13442111.jpeg", desc_si: "සුන්දර දිය ඇලි සහ ආරුක්කු නවයේ පාලම මෙහි පිහිටා ඇත.", desc_en: "Beautiful waterfalls and Nine Arch Bridge are located here.", reach_si: "උඩරට දුම්රිය මාර්ගය හරහා පැමිණීම වඩාත් සුන්දර වේ.", reach_en: "The Upcountry railway line is the most scenic route.", lat: 6.8744, lon: 81.0439, police: "057-2222222" },
-        { id: 6, cat: "beach", name_si: "මිරිස්ස", name_en: "Mirissa", district_si: "මාතර", district_en: "Matara", img: "https://images.pexels.com/photos/10100233/pexels-photo-10100233.jpeg", desc_si: "තල්මසුන් නැරඹීම සඳහා ලොව ප්‍රසිද්ධ වෙරළකි.", desc_en: "World famous beach for whale watching.", reach_si: "ගාල්ලේ සිට බස් රථයකින් විනාඩි 45 කින් ළඟා විය හැක.", reach_en: "45 minutes from Galle by bus.", lat: 5.9483, lon: 80.4533, police: "041-2222222" }
+        { id: 6, cat: "beach", name_si: "මිරිස්ස", name_en: "Mirissa", district_si: "මාතර", district_en: "Matara", img: "https://images.pexels.com/photos/10100233/pexels-photo-10100233.jpeg", desc_si: "තල්මසුන් නැරඹීම සඳහා ලොව ප්‍රසිද්ධ වෙරළකි.", desc_en: "World famous beach for whale watching.", reach_si: "ගාල්ලේ සිට බස් රථයකින් විනාඩි 45 කින් ළඟා විය හැක.", reach_en: "45 minutes from Galle by bus.", lat: 5.9483, lon: 80.4533, police: "041-2222222" },
+        { id: 7, cat: "culture", name_si: "අනුරාධපුරය", name_en: "Anuradhapura", district_si: "අනුරාධපුරය", district_en: "Anuradhapura", img: "https://images.pexels.com/photos/20563456/pexels-photo-20563456.jpeg", desc_si: "පැරණිතම රාජධානිය සහ බෞද්ධ පූජනීය නගරය.", desc_en: "Oldest kingdom and sacred Buddhist city.", reach_si: "දුම්රියෙන් හෝ බස් රථයෙන් කොළඹ සිට සෘජුව පැමිණිය හැක.", reach_en: "Direct access from Colombo by train or bus.", lat: 8.3122, lon: 80.4131, police: "025-2222222" },
+        { id: 8, cat: "culture", name_si: "පොළොන්නරුව", name_en: "Polonnaruwa", district_si: "පොළොන්නරුව", district_en: "Polonnaruwa", img: "https://images.pexels.com/photos/11054359/pexels-photo-11054359.jpeg", desc_si: "දෙවන පැරණිතම රාජධානිය සහ ඓතිහාසික නටබුන් සහිත නගරය.", desc_en: "Second oldest kingdom with historical ruins.", reach_si: "බස් රථයෙන් හෝ දුම්රියෙන් ළඟා විය හැක.", reach_en: "Accessible via bus or train.", lat: 7.9403, lon: 81.0188, police: "027-2222222" },
+        { id: 9, cat: "culture", name_si: "යාපනය", name_en: "Jaffna", district_si: "යාපනය", district_en: "Jaffna", img: "https://images.pexels.com/photos/7311181/pexels-photo-7311181.jpeg", desc_si: "සුවිශේෂී සංස්කෘතියක් සහිත ශ්‍රී ලංකාවේ උතුරු අගනගරය.", desc_en: "Northern capital of Sri Lanka with a unique culture.", reach_si: "යාල් දේවි දුම්රියෙන් හෝ බස් රථයෙන් පැමිණිය හැක.", reach_en: "Accessible via Yal Devi train or bus.", lat: 9.6615, lon: 80.0255, police: "021-2222222" },
+        { id: 10, cat: "beach", name_si: "හිකඩුව", name_en: "Hikkaduwa", district_si: "ගාල්ල", district_en: "Galle", img: "https://images.pexels.com/photos/10100233/pexels-photo-10100233.jpeg", desc_si: "කොරල් පර සහ මුහුදු ක්‍රීඩා සඳහා ප්‍රසිද්ධ වෙරළ තීරය.", desc_en: "Famous beach for coral reefs and water sports.", reach_si: "ගාලු පාර ඔස්සේ බස් රථයෙන් හෝ දුම්රියෙන්.", reach_en: "By bus or train via Galle Road.", lat: 6.1395, lon: 80.1058, police: "091-2277222" }
     ];
 
     function render(filter) {
@@ -188,7 +193,6 @@
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
         const t = translations[currentLang];
-        // කලින් version එකේ තිබූ වැඩ කරන map link ක්‍රමය
         const mapUrl = `geo:${loc.lat},${loc.lon}?q=${loc.lat},${loc.lon}(${currentLang === 'si' ? loc.name_si : loc.name_en})`;
         
         document.getElementById('detailsContent').innerHTML = `
@@ -224,15 +228,26 @@
         showPopup('detailsPage');
     }
 
-    // Weather and other functions kept original to avoid damage
     async function fetchWeather() {
         const weatherBox = document.getElementById('weatherContent');
+        const errorMsg = translations[currentLang].weather_error;
         weatherBox.innerHTML = translations[currentLang].loading || "Loading...";
+        
         try {
-            const response = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
+            // timeout එකක් සමඟ fetch කිරීම
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), 8000);
+            
+            const response = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`, { signal: controller.signal });
+            clearTimeout(id);
+            
+            if (!response.ok) throw new Error();
             const data = await response.json();
             weatherBox.innerHTML = `<div class="weather-card"><strong>Colombo</strong> <span>${Math.round(data.current_weather.temperature)}°C</span></div>`;
-        } catch (e) { weatherBox.innerHTML = "Error loading data."; }
+        } catch (e) { 
+            weatherBox.innerHTML = `<div style="padding:10px; color:#d93025; background:#fce8e6; border-radius:10px;">${errorMsg}</div>
+            <button class="btn" style="margin-top:10px; background:#555;" onclick="fetchWeather()">Retry</button>`;
+        }
     }
 
     function filterCat(cat, btn) {
@@ -258,7 +273,8 @@
         document.getElementById('c2').innerText = t.c2;
         document.getElementById('c3').innerText = t.c3;
         document.getElementById('c4').innerText = t.c4;
-        render(document.querySelector('.cat-btn.active').onclick.toString().match(/'(.*?)'/)[1]);
+        const activeCat = document.querySelector('.cat-btn.active').getAttribute('onclick').match(/'(.*?)'/)[1];
+        render(activeCat);
     }
 
     function convert() {
