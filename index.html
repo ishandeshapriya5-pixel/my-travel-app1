@@ -45,9 +45,10 @@
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .location-badge { display: inline-block; background: #e8f0fe; color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-top: 10px; }
         
-        /* New Quick Info Grid Design */
+        /* Quick Info Grid - Interactive */
         .quick-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
-        .info-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .info-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; cursor: pointer; transition: 0.2s; }
+        .info-item:active { transform: scale(0.95); background: #f0f4f8; }
         .info-item span { display: block; font-size: 18px; margin-bottom: 5px; }
         .info-text { font-size: 10px; font-weight: bold; color: #555; line-height: 1.2; }
 
@@ -150,10 +151,13 @@
         const t = translations[currentLang];
         const mapUrl = `geo:${loc.lat},${loc.lon}?q=${loc.lat},${loc.lon}(${currentLang === 'si' ? loc.name_si : loc.name_en})`;
         
-        // labels for quick info grid
         const feeLabel = currentLang === 'si' ? 'ප්‍රවේශ ගාස්තු' : 'Entry Fee';
         const bestLabel = currentLang === 'si' ? 'හොඳම කාලය' : 'Best Time';
         const doLabel = currentLang === 'si' ? 'විශේෂ' : 'Activities';
+
+        const feeVal = currentLang === 'si' ? (loc.fee_si || 'නොමිලේ') : (loc.fee_en || 'Free');
+        const bestVal = currentLang === 'si' ? (loc.best_si || 'ඕනෑම කාලයක') : (loc.best_en || 'Anytime');
+        const doVal = currentLang === 'si' ? (loc.do_si || 'නිරීක්ෂණය') : (loc.do_en || 'Sightseeing');
 
         document.getElementById('detailsContent').innerHTML = `
             <img src="${loc.img}" class="details-img">
@@ -161,9 +165,15 @@
             <div class="location-badge">📍 ${t.loc} ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
             
             <div class="quick-info-grid">
-                <div class="info-item"><span>🎫</span><div class="info-text"><b>${feeLabel}</b><br>${currentLang === 'si' ? (loc.fee_si || 'නොමිලේ') : (loc.fee_en || 'Free')}</div></div>
-                <div class="info-item"><span>☀️</span><div class="info-text"><b>${bestLabel}</b><br>${currentLang === 'si' ? (loc.best_si || 'ඕනෑම කාලයක') : (loc.best_en || 'Anytime')}</div></div>
-                <div class="info-item"><span>📸</span><div class="info-text"><b>${doLabel}</b><br>${currentLang === 'si' ? (loc.do_si || 'නිරීක්ෂණය') : (loc.do_en || 'Sightseeing')}</div></div>
+                <div class="info-item" onclick="alert('${feeLabel}: ${feeVal}')">
+                    <span>🎫</span><div class="info-text"><b>${feeLabel}</b><br>${feeVal}</div>
+                </div>
+                <div class="info-item" onclick="alert('${bestLabel}: ${bestVal}')">
+                    <span>☀️</span><div class="info-text"><b>${bestLabel}</b><br>${bestVal}</div>
+                </div>
+                <div class="info-item" onclick="alert('${doLabel}: ${doVal}')">
+                    <span>📸</span><div class="info-text"><b>${doLabel}</b><br>${doVal}</div>
+                </div>
             </div>
 
             <div class="info-card"><span class="info-title">📖 ${t.about}</span><p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p></div>
@@ -191,17 +201,21 @@
         document.getElementById('c0').innerText = t.c0; document.getElementById('c1').innerText = t.c1; document.getElementById('c2').innerText = t.c2; document.getElementById('c3').innerText = t.c3; document.getElementById('c4').innerText = t.c4;
         
         const activeBtn = document.querySelector('.cat-btn.active');
-        const activeCat = activeBtn.id === 'c0' ? 'all' : (activeBtn.id === 'c1' ? 'culture' : (activeBtn.id === 'c2' ? 'nature' : (activeBtn.id === 'c3' ? 'beach' : 'wild')));
-        render(activeCat);
+        let cat = 'all';
+        if(activeBtn.id === 'c1') cat = 'culture';
+        else if(activeBtn.id === 'c2') cat = 'nature';
+        else if(activeBtn.id === 'c3') cat = 'beach';
+        else if(activeBtn.id === 'c4') cat = 'wild';
+        render(cat);
     }
 
     async function fetchWeather() {
         const weatherBox = document.getElementById('weatherContent');
-        weatherBox.innerHTML = translations[currentLang].loading || "Loading...";
+        weatherBox.innerHTML = translations[currentLang].loading;
         try {
-            const response = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
-            const data = await response.json();
-            weatherBox.innerHTML = `<div style="background:white; padding:15px; border-radius:12px; display:flex; justify-content:space-between; border-left:5px solid var(--primary);"><strong>Colombo</strong> <span>${Math.round(data.current_weather.temperature)}°C</span></div>`;
+            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
+            const data = await res.json();
+            weatherBox.innerHTML = `<div style="background:white; padding:15px; border-radius:12px;"><strong>Colombo</strong>: ${Math.round(data.current_weather.temperature)}°C</div>`;
         } catch (e) { weatherBox.innerHTML = "Error!"; }
     }
 
