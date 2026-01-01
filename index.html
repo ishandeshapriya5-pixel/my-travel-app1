@@ -36,7 +36,7 @@
         .btn { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; z-index: 3005; }
+        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; }
         
         /* Details Page Specifics */
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; }
@@ -44,14 +44,14 @@
         .info-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; cursor: pointer; }
         .info-text { font-size: 10px; font-weight: bold; color: #555; }
 
+        /* Clickable Emergency Style */
         .call-link { background: #28a745; color: white; padding: 8px 15px; border-radius: 10px; text-decoration: none; font-size: 14px; font-weight: bold; display: inline-block; }
         
-        /* Currency & Weather Styles */
-        .data-box { background: white; padding: 20px; border-radius: 15px; border: 2px solid var(--primary); text-align: center; margin-top: 20px; }
+        /* Currency Style */
+        .curr-box { background: white; padding: 20px; border-radius: 15px; border: 2px solid var(--primary); text-align: center; margin-top: 20px; }
         .curr-select { width: 100%; padding: 10px; border-radius: 10px; margin-bottom: 10px; font-weight: bold; border: 1px solid #ccc; }
         .curr-input { width: 90%; padding: 10px; border-radius: 10px; border: 1px solid #ddd; font-size: 20px; text-align: center; }
 
-        #weather-icon { font-size: 50px; margin: 10px 0; }
         #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 30px; font-size: 14px; z-index: 5000; display: none; }
     </style>
 </head>
@@ -72,7 +72,7 @@
     <div class="nav-bar">
         <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
         <div class="nav-item" onclick="showPopup('currencyPage'); updateExchangeRate();">💰<br><span id="n2">මුදල් ඒකක</span></div>
-        <div class="nav-item" onclick="showPopup('weatherPage'); fetchWeather(6.9271, 79.8612, 'Colombo');">🌤️<br><span id="n3">කාලගුණය</span></div>
+        <div class="nav-item" onclick="showPopup('weatherPage'); fetchWeather();">🌤️<br><span id="n3">කාලගුණය</span></div>
     </div>
 
     <div class="container" id="locationList"></div>
@@ -80,32 +80,20 @@
     <div id="currencyPage" class="overlay">
         <button class="close-btn" onclick="closePopups()">×</button>
         <h2 style="margin-top:50px;">Live Currency Converter</h2>
-        <div class="data-box">
+        <div class="curr-box">
             <select id="baseCurrency" class="curr-select" onchange="updateExchangeRate()">
                 <option value="USD">USD - US Dollar</option>
                 <option value="EUR">EUR - Euro</option>
                 <option value="GBP">GBP - British Pound</option>
                 <option value="AUD">AUD - Australian Dollar</option>
                 <option value="INR">INR - Indian Rupee</option>
+                <option value="SAR">SAR - Saudi Riyal</option>
+                <option value="AED">AED - UAE Dirham</option>
             </select>
             <input type="number" id="amtInput" class="curr-input" value="1" oninput="convertCurr()">
             <h3 style="margin: 15px 0;">=</h3>
             <div style="font-size: 26px; font-weight: bold; color: var(--primary);">LKR <span id="lkrResult">0.00</span></div>
             <p style="font-size: 11px; color: gray; margin-top: 10px;">සජීවී දත්ත: <span id="syncTime">-</span></p>
-        </div>
-    </div>
-
-    <div id="weatherPage" class="overlay">
-        <button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:50px;" id="weatherTitle">සජීවී කාලගුණය 🌤️</h2>
-        <div class="data-box" id="weatherBox">
-            <div id="weather-loader">දත්ත ලබාගනිමින්...</div>
-            <div id="weather-info" style="display:none;">
-                <div id="weather-icon">☀️</div>
-                <h1 id="temp-display" style="font-size:48px; margin:5px 0;">--°C</h1>
-                <p id="weather-desc" style="font-weight:bold; color:var(--primary); text-transform:uppercase;">Clear Sky</p>
-                <p id="location-name" style="color:gray;">--</p>
-            </div>
         </div>
     </div>
 
@@ -125,6 +113,11 @@
         </div>
     </div>
 
+    <div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
+        <h2 style="margin-top:50px;" id="t3">සජීවී කාලගුණය 🌤️</h2>
+        <div id="weatherContent" style="text-align:center; padding:30px; background:#e8f0fe; border-radius:20px;">පූරණය වෙමින් පවතී...</div>
+    </div>
+
     <div id="detailsPage" class="overlay">
         <button class="close-btn" onclick="closePopups()">×</button>
         <div id="detailsContent"></div>
@@ -136,7 +129,7 @@
 <script src="locations.js"></script>
 <script>
     let currentLang = 'si';
-    let liveRate = 300;
+    let liveRate = 300; // Default fallback
 
     window.onload = () => {
         setTimeout(() => {
@@ -184,9 +177,6 @@
                 </div>
             </div>
 
-            <button class="btn" style="background:#e8f0fe; color:var(--primary); margin-top:15px;" 
-                onclick="fetchWeather(${loc.lat}, ${loc.lon}, '${loc.name_en}')">🌤️ View Local Weather</button>
-
             <div style="background:#fff; border:1px solid #eee; padding:15px; border-radius:15px; margin-top:15px;">
                 <b>📖 ${t.about}</b><p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
                 <b>🚌 ${t.how}</b><p>${currentLang === 'si' ? loc.reach_si : loc.reach_en}</p>
@@ -200,40 +190,6 @@
             <a href="geo:${loc.lat},${loc.lon}" class="btn" style="display:block; text-align:center; text-decoration:none; margin-top:20px;">Open Google Maps 📍</a>
         `;
         showPopup('detailsPage');
-    }
-
-    // Weather Logic
-    async function fetchWeather(lat, lon, name) {
-        showPopup('weatherPage');
-        const loader = document.getElementById('weather-loader');
-        const info = document.getElementById('weather-info');
-        loader.style.display = 'block';
-        info.style.display = 'none';
-        
-        try {
-            const response = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
-            const data = await response.json();
-            const weather = data.current_weather;
-            
-            document.getElementById('temp-display').innerText = `${weather.temperature}°C`;
-            document.getElementById('location-name').innerText = name;
-            
-            // Map Weather Codes to Icons/Desc
-            const code = weather.weathercode;
-            let icon = "☀️"; let desc = "Clear Sky";
-            if(code >= 1 && code <= 3) { icon = "⛅"; desc = "Partly Cloudy"; }
-            else if(code >= 51 && code <= 67) { icon = "🌧️"; desc = "Rainy"; }
-            else if(code >= 71 && code <= 86) { icon = "❄️"; desc = "Snowy"; }
-            else if(code >= 95) { icon = "⛈️"; desc = "Thunderstorm"; }
-            
-            document.getElementById('weather-icon').innerText = icon;
-            document.getElementById('weather-desc').innerText = desc;
-            
-            loader.style.display = 'none';
-            info.style.display = 'block';
-        } catch (e) {
-            loader.innerText = "⚠️ කාලගුණ දත්ත ලබාගත නොහැක.";
-        }
     }
 
     async function updateExchangeRate() {
@@ -250,6 +206,15 @@
     function convertCurr() {
         const amt = document.getElementById('amtInput').value;
         document.getElementById('lkrResult').innerText = (amt * liveRate).toLocaleString(undefined, {minimumFractionDigits: 2});
+    }
+
+    async function fetchWeather() {
+        const content = document.getElementById('weatherContent');
+        try {
+            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
+            const data = await res.json();
+            content.innerHTML = `<h1>${data.current_weather.temperature}°C</h1><p>Colombo, Sri Lanka</p>`;
+        } catch (e) { content.innerHTML = "⚠️ Connection Error"; }
     }
 
     function toggleLanguage() {
