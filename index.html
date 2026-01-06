@@ -70,7 +70,10 @@
         .contact-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
-        .weather-box { background: white; padding: 20px; border-radius: 15px; text-align: center; margin-top: 20px; border: 2px solid var(--primary); }
+        
+        /* Weather Box Customization */
+        .weather-box { background: white; padding: 25px; border-radius: 15px; text-align: center; margin-top: 20px; border: 2px solid var(--primary); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .city-select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; background: #fefefe; font-weight: bold; }
 
         /* Multi-Currency Styles */
         .currency-box { background: #f0f4f8; padding: 20px; border-radius: 15px; text-align: center; }
@@ -150,6 +153,16 @@
 
     <div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
         <h2 style="margin-top:40px;" id="t3">සජීවී කාලගුණය 🌤️</h2>
+        <select id="weatherCity" class="city-select" onchange="fetchWeather()">
+            <option value="6.9271,79.8612">Colombo (කොළඹ)</option>
+            <option value="7.2906,80.6337">Kandy (මහනුවර)</option>
+            <option value="6.0329,80.2170">Galle (ගාල්ල)</option>
+            <option value="8.3114,80.4037">Anuradhapura (අනුරාධපුරය)</option>
+            <option value="7.9403,81.0188">Polonnaruwa (පොළොන්නරුව)</option>
+            <option value="6.8931,80.9981">Ella (ඇල්ල)</option>
+            <option value="6.9497,80.7891">Nuwara Eliya (නුවරඑළිය)</option>
+            <option value="9.6615,80.0255">Jaffna (යාපනය)</option>
+        </select>
         <div id="weatherContent" class="weather-box">පූරණය වෙමින් පවතී...</div>
     </div>
 </div>
@@ -159,9 +172,6 @@
 <script>
     let currentLang = 'si';
     
-    // Default rate if API fails
-    let liveRate = 300; 
-
     window.onload = () => {
         setTimeout(() => {
             document.getElementById('splash-screen').style.opacity = '0';
@@ -169,22 +179,9 @@
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 render('all');
-                updateRates(); // Get rates on load
             }, 500);
         }, 2000);
     };
-
-    // Function to get real-time exchange rates
-    async function updateRates() {
-        try {
-            const res = await fetch('https://open.er-api.com/v6/latest/USD');
-            const data = await res.json();
-            // We'll calculate others relative to USD/LKR in the convert function
-            window.rates = data.rates;
-        } catch (e) {
-            console.log("Rate fetch failed");
-        }
-    }
 
     async function convertCurrency() {
         const amount = document.getElementById('foreignInput').value;
@@ -197,14 +194,12 @@
         }
 
         try {
-            // Fetching LKR specific rate
             const res = await fetch(`https://open.er-api.com/v6/latest/${fromCurrency}`);
             const data = await res.json();
             const rateToLKR = data.rates.LKR;
             const final = (amount * rateToLKR).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
             resultEl.innerText = final;
         } catch (e) {
-            // Fallback to static approx if API fails
             resultEl.innerText = (amount * 300).toFixed(2) + " (Offline)";
         }
     }
@@ -273,18 +268,32 @@
         showPopup('detailsPage');
     }
 
+    // Improved Weather Function with City Support
     async function fetchWeather() {
         const weatherBox = document.getElementById('weatherContent');
+        const coords = document.getElementById('weatherCity').value.split(',');
+        const lat = coords[0];
+        const lon = coords[1];
+        
         weatherBox.innerHTML = translations[currentLang].loading;
+        
         try {
-            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
+            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`);
             const data = await res.json();
             const temp = Math.round(data.current_weather.temperature);
+            const code = data.current_weather.weathercode;
+            
+            // Basic Weather Condition Mapping
+            let condition = currentLang === 'si' ? 'සාමාන්‍ය' : 'Clear';
+            let emoji = '☀️';
+            if(code > 0) { condition = currentLang === 'si' ? 'වලාකුළු සහිතයි' : 'Cloudy'; emoji = '☁️'; }
+            if(code > 50) { condition = currentLang === 'si' ? 'වැසි සහිතයි' : 'Rainy'; emoji = '🌧️'; }
+
             weatherBox.innerHTML = `
-                <div style="font-size:48px;">🌡️</div>
-                <h2 style="margin:10px 0;">Colombo, SL</h2>
-                <div style="font-size:32px; font-weight:bold; color:var(--primary);">${temp}°C</div>
-                <p style="color:#666;">${currentLang === 'si' ? 'වර්තමාන තත්ත්වය' : 'Current Condition'}</p>
+                <div style="font-size:60px;">${emoji}</div>
+                <div style="font-size:40px; font-weight:bold; color:var(--primary); margin:10px 0;">${temp}°C</div>
+                <p style="font-size:18px; color:#444; font-weight:bold;">${condition}</p>
+                <p style="color:#888; font-size:12px;">${currentLang === 'si' ? 'සජීවී යාවත්කාලීන කිරීමකි' : 'Live Update'}</p>
             `;
         } catch (e) { 
             weatherBox.innerHTML = "⚠️ <br> " + (currentLang === 'si' ? 'සම්බන්ධතාවය පරීක්ෂා කරන්න' : 'Check connection');
