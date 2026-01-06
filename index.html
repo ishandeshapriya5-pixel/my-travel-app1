@@ -71,6 +71,12 @@
         .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
         .weather-box { background: white; padding: 20px; border-radius: 15px; text-align: center; margin-top: 20px; border: 2px solid var(--primary); }
+
+        /* Multi-Currency Styles */
+        .currency-box { background: #f0f4f8; padding: 20px; border-radius: 15px; text-align: center; }
+        .currency-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
+        .currency-select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; }
+        .currency-input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
@@ -114,14 +120,31 @@
 
     <div id="emergPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
         <h2 style="margin-top:40px;" id="t1">හදිසි ඇමතුම් සේවා</h2>
-        <div style="background:#fff1f1; padding:20px; border-radius:15px;"><p>Tourist Police: 1912</p><p>Ambulance: 1990</p><p>Police: 119</p></div>
+        <div style="background:#fff1f1; padding:20px; border-radius:15px;">
+            <div class="contact-item"><span>Tourist Police</span><a href="tel:1912" class="call-link">📞 1912</a></div>
+            <div class="contact-item" style="margin-top:10px;"><span>Ambulance</span><a href="tel:1990" class="call-link">📞 1990</a></div>
+            <div class="contact-item" style="margin-top:10px;"><span>Police</span><a href="tel:119" class="call-link">📞 119</a></div>
+            <div class="contact-item" style="margin-top:10px;"><span>Fire Service</span><a href="tel:110" class="call-link">📞 110</a></div>
+        </div>
     </div>
 
     <div id="currencyPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
         <h2 style="margin-top:40px;" id="t2">මුදල් පරිවර්තකය</h2>
-        <div style="background:#f0f4f8; padding:20px; border-radius:15px; text-align:center;">
-            <input type="number" id="usdInput" placeholder="USD" oninput="convert()" style="width:80%; padding:10px; border-radius:10px; border:1px solid #ccc;">
-            <h3>LKR: <span id="lkrResult">0</span></h3>
+        <div class="currency-box">
+            <div class="currency-input-group">
+                <select id="currencyList" class="currency-select" onchange="convertCurrency()">
+                    <option value="USD">USD 🇺🇸</option>
+                    <option value="EUR">EUR 🇪🇺</option>
+                    <option value="GBP">GBP 🇬🇧</option>
+                    <option value="AUD">AUD 🇦🇺</option>
+                    <option value="INR">INR 🇮🇳</option>
+                    <option value="JPY">JPY 🇯🇵</option>
+                    <option value="CNY">CNY 🇨🇳</option>
+                </select>
+                <input type="number" id="foreignInput" class="currency-input" placeholder="Amount" oninput="convertCurrency()">
+            </div>
+            <h3>LKR: <span id="lkrResult">0.00</span></h3>
+            <p style="font-size:10px; color:#888;">Live rates from ExchangeRate-API</p>
         </div>
     </div>
 
@@ -135,7 +158,9 @@
 
 <script>
     let currentLang = 'si';
-    const rate = 300;
+    
+    // Default rate if API fails
+    let liveRate = 300; 
 
     window.onload = () => {
         setTimeout(() => {
@@ -144,9 +169,45 @@
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 render('all');
+                updateRates(); // Get rates on load
             }, 500);
         }, 2000);
     };
+
+    // Function to get real-time exchange rates
+    async function updateRates() {
+        try {
+            const res = await fetch('https://open.er-api.com/v6/latest/USD');
+            const data = await res.json();
+            // We'll calculate others relative to USD/LKR in the convert function
+            window.rates = data.rates;
+        } catch (e) {
+            console.log("Rate fetch failed");
+        }
+    }
+
+    async function convertCurrency() {
+        const amount = document.getElementById('foreignInput').value;
+        const fromCurrency = document.getElementById('currencyList').value;
+        const resultEl = document.getElementById('lkrResult');
+
+        if (!amount || amount <= 0) {
+            resultEl.innerText = "0.00";
+            return;
+        }
+
+        try {
+            // Fetching LKR specific rate
+            const res = await fetch(`https://open.er-api.com/v6/latest/${fromCurrency}`);
+            const data = await res.json();
+            const rateToLKR = data.rates.LKR;
+            const final = (amount * rateToLKR).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+            resultEl.innerText = final;
+        } catch (e) {
+            // Fallback to static approx if API fails
+            resultEl.innerText = (amount * 300).toFixed(2) + " (Offline)";
+        }
+    }
 
     function showToast(msg) {
         const toast = document.getElementById('custom-toast');
@@ -216,7 +277,6 @@
         const weatherBox = document.getElementById('weatherContent');
         weatherBox.innerHTML = translations[currentLang].loading;
         try {
-            // Using a more stable weather request
             const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
             const data = await res.json();
             const temp = Math.round(data.current_weather.temperature);
@@ -247,11 +307,6 @@
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         render(cat);
-    }
-
-    function convert() {
-        let val = document.getElementById('usdInput').value;
-        document.getElementById('lkrResult').innerText = (val * rate).toLocaleString();
     }
 
     function showPopup(id) { document.getElementById(id).style.display = "block"; }
