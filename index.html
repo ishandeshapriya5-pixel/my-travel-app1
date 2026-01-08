@@ -44,6 +44,7 @@
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .location-badge { display: inline-block; background: #e8f0fe; color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-top: 10px; }
         
+        /* New Interface Components */
         .quick-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
         .info-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; }
         .info-text { font-size: 10px; font-weight: bold; color: #555; margin-bottom: 2px; }
@@ -51,10 +52,11 @@
         .info-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-top: 15px; }
         .info-title { font-weight: bold; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px; display: block; margin-bottom: 8px; }
         
-        .note-box { background: #fff8e1; padding: 12px; border-radius: 10px; font-size: 12px; border-left: 4px solid #ffc107; margin-top: 15px; }
+        .note-box { background: #fff8e1; padding: 12px; border-radius: 10px; font-size: 12px; border-left: 4px solid #ffc107; margin-top: 15px; line-height: 1.4; }
         
         .contact-section { background: #fff8f0; border: 1px solid #ffeeba; border-radius: 15px; padding: 15px; margin-top: 20px; }
         .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .contact-item:last-child { border: none; }
         .call-link { background: #28a745; color: white; padding: 8px 15px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
 
@@ -102,6 +104,25 @@
         <div class="contact-section">
             <div class="contact-item"><span>Tourist Police</span><a href="tel:1912" class="call-link">1912</a></div>
             <div class="contact-item"><span>Ambulance</span><a href="tel:1990" class="call-link">1990</a></div>
+            <div class="contact-item"><span>Police Emergency</span><a href="tel:119" class="call-link">119</a></div>
+        </div>
+    </div>
+
+    <div id="currencyPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
+        <h2 style="margin-top:40px;" id="t2">මුදල් පරිවර්තකය</h2>
+        <div class="info-card">
+            <p>1 USD = <span id="currentRate">300</span> LKR (Approx)</p>
+            <input type="number" id="usdInput" placeholder="Enter USD amount" onkeyup="convert()" style="width:80%; padding:10px; border-radius:10px; border:1px solid #ddd;">
+            <h3 style="margin-top:20px;">= <span id="lkrResult">0</span> LKR</h3>
+        </div>
+    </div>
+
+    <div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
+        <h2 style="margin-top:40px;" id="t3">සජීවී කාලගුණය 🌤️</h2>
+        <div id="weatherContent" class="info-card" style="text-align:center;">
+            <p>Colombo, Sri Lanka</p>
+            <h1 style="font-size:48px; margin:10px 0;">29°C</h1>
+            <p>Partly Cloudy</p>
         </div>
     </div>
 </div>
@@ -119,7 +140,9 @@
 
 <script>
     let currentLang = 'si';
+    const rate = 300; // Sample rate
     
+    // Function to combine all locations from different JS files
     const getAllLocations = () => {
         const libs = [
             typeof w1 !== 'undefined' ? w1 : [], typeof w2 !== 'undefined' ? w2 : [],
@@ -200,7 +223,7 @@
 
             <div class="info-card">
                 <span class="info-title">🚀 ${t.how}</span>
-                <p style="font-size:14px; line-height:1.6;">${currentLang === 'si' ? (loc.reach_si || 'පෞද්ගලික හෝ පොදු ප්‍රවාහන සේවා මගින්.') : (loc.reach_en || 'Via private or public transport.')}</p>
+                <p style="font-size:14px; line-height:1.6;">${currentLang === 'si' ? (loc.reach_si || 'ප්‍රවාහන සේවා මගින් ලඟා විය හැක.') : (loc.reach_en || 'Accessible via transport services.')}</p>
             </div>
 
             <div class="note-box">
@@ -215,7 +238,7 @@
                 </div>
             </div>
 
-            <a href="https://www.google.com/maps?q=${loc.lat},${loc.lon}" target="_blank" class="map-link">${t.map}</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}" target="_blank" class="map-link">${t.map}</a>
             <br><br>
         `;
         showPopup('detailsPage');
@@ -227,14 +250,9 @@
         document.getElementById('langBtn').innerText = currentLang === 'si' ? 'English' : 'සිංහල';
         document.getElementById('mainTitle').innerText = t.title;
         document.getElementById('search').placeholder = t.search;
-        document.getElementById('n1').innerText = t.n1;
-        document.getElementById('n2').innerText = t.n2;
-        document.getElementById('n3').innerText = t.n3;
-        document.getElementById('c0').innerText = t.c0;
-        document.getElementById('c1').innerText = t.c1;
-        document.getElementById('c2').innerText = t.c2;
-        document.getElementById('c3').innerText = t.c3;
-        document.getElementById('c4').innerText = t.c4;
+        document.getElementById('n1').innerText = t.n1; document.getElementById('n2').innerText = t.n2; document.getElementById('n3').innerText = t.n3;
+        document.getElementById('t1').innerText = t.t1; document.getElementById('t2').innerText = t.t2; document.getElementById('t3').innerText = t.t3;
+        document.getElementById('c0').innerText = t.c0; document.getElementById('c1').innerText = t.c1; document.getElementById('c2').innerText = t.c2; document.getElementById('c3').innerText = t.c3; document.getElementById('c4').innerText = t.c4;
         render('all');
     }
 
@@ -242,6 +260,11 @@
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
         render(cat);
+    }
+
+    function convert() {
+        let val = document.getElementById('usdInput').value;
+        document.getElementById('lkrResult').innerText = (val * rate).toLocaleString();
     }
 
     function showPopup(id) { document.getElementById(id).style.display = "block"; }
