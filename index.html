@@ -40,57 +40,31 @@
         .btn { background: var(--primary); color: white; border: none; padding: 10px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; }
 
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 3000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; }
+        .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; z-index: 3001; }
         
         .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .location-badge { display: inline-block; background: #e8f0fe; color: var(--primary); padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-top: 10px; }
         
         .quick-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
-        .info-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; cursor: pointer; }
-        .info-text { font-size: 10px; font-weight: bold; color: #555; }
-
-        #custom-toast {
-            position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
-            background: #333; color: white; padding: 12px 25px; border-radius: 30px;
-            font-size: 14px; font-weight: bold; z-index: 5000; display: none;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-
-        .whatsapp-btn {
-            position: fixed; bottom: 20px; right: 20px; background: #25D366;
-            color: white; width: 50px; height: 50px; border-radius: 50%;
-            display: flex; justify-content: center; align-items: center;
-            font-size: 24px; box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            text-decoration: none; z-index: 1000;
-        }
+        .info-item { background: #fdfdfd; border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; }
+        .info-text { font-size: 10px; font-weight: bold; color: #555; margin-bottom: 2px; }
 
         .info-card { background: #fff; border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-top: 15px; }
-        .info-title { font-weight: bold; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px; display: block; }
+        .info-title { font-weight: bold; color: var(--primary); border-bottom: 1px solid #eee; padding-bottom: 5px; display: block; margin-bottom: 8px; }
         .contact-section { background: #fff8f0; border: 1px solid #ffeeba; border-radius: 15px; padding: 15px; margin-top: 20px; }
-        .contact-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold; }
+        .contact-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; }
+        .call-link { background: #28a745; color: white; padding: 8px 15px; border-radius: 10px; text-decoration: none; font-size: 13px; font-weight: bold; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
         
-        /* Weather Box */
-        .weather-box { background: white; padding: 25px; border-radius: 15px; text-align: center; margin-top: 20px; border: 2px solid var(--primary); }
-        .city-select { width: 100%; padding: 12px; border-radius: 10px; border: 1px solid #ddd; font-size: 16px; margin-bottom: 20px; }
-
-        /* Currency Styles */
-        .currency-box { background: #f0f4f8; padding: 20px; border-radius: 15px; text-align: center; }
-        .currency-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .currency-select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; font-weight: bold; }
-        .currency-input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
+        .note-box { background: #fff8e1; padding: 12px; border-radius: 10px; font-size: 12px; border-left: 4px solid #ffc107; margin-top: 15px; line-height: 1.4; }
     </style>
 </head>
 <body>
 
 <div id="splash-screen">
-    <div class="splash-title">Welcome to Sri Lanka</div>
+    <div class="splash-title">Visit Sri Lanka</div>
     <div class="loader"><div class="progress"></div></div>
 </div>
-
-<div id="custom-toast"></div>
-<a href="https://wa.me/94700000000" class="whatsapp-btn" target="_blank">💬</a>
 
 <div id="main-content">
     <div class="header">
@@ -102,7 +76,7 @@
     <div class="nav-bar">
         <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
         <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="n2">මුදල් ඒකක</span></div>
-        <div class="nav-item" onclick="showPopup('weatherPage'); fetchWeather();">🌤️<br><span id="n3">කාලගුණය</span></div>
+        <div class="nav-item" onclick="showPopup('weatherPage')">🌤️<br><span id="n3">කාලගුණය</span></div>
     </div>
 
     <div class="cat-container" id="catBar">
@@ -116,47 +90,11 @@
     <div class="container" id="locationList"></div>
 
     <div id="detailsPage" class="overlay">
-        <button class="close-btn" onclick="closePopups()">×</button>
         <div id="detailsContent"></div>
-    </div>
-
-    <div id="emergPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t1">හදිසි ඇමතුම් සේවා</h2>
-        <div style="background:#fff1f1; padding:20px; border-radius:15px;">
-            <div class="contact-item"><span>Tourist Police</span><a href="tel:1912" class="call-link">📞 1912</a></div>
-            <div class="contact-item" style="margin-top:10px;"><span>Ambulance</span><a href="tel:1990" class="call-link">📞 1990</a></div>
-            <div class="contact-item" style="margin-top:10px;"><span>Police</span><a href="tel:119" class="call-link">📞 119</a></div>
-        </div>
-    </div>
-
-    <div id="currencyPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t2">මුදල් පරිවර්තකය</h2>
-        <div class="currency-box">
-            <div class="currency-input-group">
-                <select id="currencyList" class="currency-select" onchange="convertCurrency()">
-                    <option value="USD">USD 🇺🇸</option>
-                    <option value="EUR">EUR 🇪🇺</option>
-                    <option value="GBP">GBP 🇬🇧</option>
-                </select>
-                <input type="number" id="foreignInput" class="currency-input" placeholder="Amount" oninput="convertCurrency()">
-            </div>
-            <h3>LKR: <span id="lkrResult">0.00</span></h3>
-        </div>
-    </div>
-
-    <div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t3">සජීවී කාලගුණය 🌤️</h2>
-        <select id="weatherCity" class="city-select" onchange="fetchWeather()">
-            <option value="6.9271,79.8612">Colombo</option>
-            <option value="7.2906,80.6337">Kandy</option>
-            <option value="6.0329,80.2170">Galle</option>
-        </select>
-        <div id="weatherContent" class="weather-box">Loading...</div>
     </div>
 </div>
 
 <script src="translations.js"></script>
-
 <script src="western1.js"></script><script src="western2.js"></script>
 <script src="central1.js"></script><script src="central2.js"></script>
 <script src="southern1.js"></script><script src="southern2.js"></script>
@@ -170,13 +108,12 @@
 <script>
     let currentLang = 'si';
     
-    // Combining all location arrays safely
     const getAllLocations = () => {
         const libs = [
             typeof w1 !== 'undefined' ? w1 : [], typeof w2 !== 'undefined' ? w2 : [],
             typeof c1 !== 'undefined' ? c1 : [], typeof c2 !== 'undefined' ? c2 : [],
             typeof s1 !== 'undefined' ? s1 : [], typeof s2 !== 'undefined' ? s2 : [],
-            typeof n1 !== 'undefined' ? n1 : [], typeof n2 !== 'undefined' ? n2 : [],
+            typeof n1_loc !== 'undefined' ? n1_loc : [], typeof n2_loc !== 'undefined' ? n2_loc : [],
             typeof e1 !== 'undefined' ? e1 : [], typeof e2 !== 'undefined' ? e2 : [],
             typeof nw1 !== 'undefined' ? nw1 : [], typeof nw2 !== 'undefined' ? nw2 : [],
             typeof nc1 !== 'undefined' ? nc1 : [], typeof nc2 !== 'undefined' ? nc2 : [],
@@ -219,23 +156,57 @@
     function showDetails(id) {
         const loc = getAllLocations().find(l => l.id === id);
         const t = translations[currentLang];
+        
         document.getElementById('detailsContent').innerHTML = `
+            <button class="close-btn" onclick="closePopups()">×</button>
             <img src="${loc.img}" class="details-img">
-            <h2>${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
-            <div class="info-card"><span class="info-title">📖 ${t.about}</span><p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p></div>
-            <a href="geo:${loc.lat},${loc.lon}" class="map-link">${t.map}</a>
+            <h2 style="margin-bottom:5px;">${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
+            <div class="location-badge">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
+
+            <div class="quick-info-grid">
+                <div class="info-item">
+                    <div style="font-size:20px;">🎟️</div>
+                    <div class="info-text">${currentLang === 'si' ? 'ගාස්තු' : 'Fees'}</div>
+                    <div style="font-size:11px; font-weight:bold; color:var(--primary);">${currentLang === 'si' ? (loc.fee_si || 'නොමිලේ') : (loc.fee_en || 'Free')}</div>
+                </div>
+                <div class="info-item">
+                    <div style="font-size:20px;">📅</div>
+                    <div class="info-text">${currentLang === 'si' ? 'හොඳම කාලය' : 'Best Time'}</div>
+                    <div style="font-size:11px; font-weight:bold;">${currentLang === 'si' ? (loc.best_si || 'ඕනෑම කාලයක') : (loc.best_en || 'Anytime')}</div>
+                </div>
+                <div class="info-item">
+                    <div style="font-size:20px;">✨</div>
+                    <div class="info-text">${currentLang === 'si' ? 'විශේෂත්වය' : 'Activity'}</div>
+                    <div style="font-size:11px; font-weight:bold;">${currentLang === 'si' ? (loc.do_si || 'නැරඹීම') : (loc.do_en || 'Sightseeing')}</div>
+                </div>
+            </div>
+
+            <div class="info-card">
+                <span class="info-title">📖 ${t.about}</span>
+                <p style="font-size:14px; line-height:1.6;">${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+            </div>
+
+            <div class="info-card">
+                <span class="info-title">🚀 ${t.how}</span>
+                <p style="font-size:14px; line-height:1.6;">${currentLang === 'si' ? (loc.reach_si || 'පෞද්ගලික හෝ පොදු ප්‍රවාහන සේවා මගින්.') : (loc.reach_en || 'Via private or public transport.')}</p>
+            </div>
+
+            <div class="note-box">
+                ⚠️ <b>Special Note:</b> ${currentLang === 'si' ? 'ඉහත සදහන් ගාස්තු දැනට පවතින මුදලයි, එය කාලය සමග වෙනස් විය හැක.' : 'The fees mentioned above are current prices and may change over time.'}
+            </div>
+
+            <div class="contact-section">
+                <span class="info-title" style="border:none;">📞 ${t.contact}</span>
+                <div class="contact-item">
+                    <span style="font-size:14px; font-weight:bold;">Police Station</span>
+                    <a href="tel:${loc.police || '119'}" class="call-link">Call: ${loc.police || '119'}</a>
+                </div>
+            </div>
+
+            <a href="https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}" target="_blank" class="map-link">${t.map}</a>
+            <br><br>
         `;
         showPopup('detailsPage');
-    }
-
-    async function fetchWeather() {
-        const box = document.getElementById('weatherContent');
-        const coords = document.getElementById('weatherCity').value.split(',');
-        try {
-            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&current_weather=true`);
-            const data = await res.json();
-            box.innerHTML = `<h3>${data.current_weather.temperature}°C</h3>`;
-        } catch (e) { box.innerHTML = "Error"; }
     }
 
     function toggleLanguage() {
@@ -243,6 +214,15 @@
         const t = translations[currentLang];
         document.getElementById('langBtn').innerText = currentLang === 'si' ? 'English' : 'සිංහල';
         document.getElementById('mainTitle').innerText = t.title;
+        document.getElementById('search').placeholder = t.search;
+        document.getElementById('n1').innerText = t.n1;
+        document.getElementById('n2').innerText = t.n2;
+        document.getElementById('n3').innerText = t.n3;
+        document.getElementById('c0').innerText = t.c0;
+        document.getElementById('c1').innerText = t.c1;
+        document.getElementById('c2').innerText = t.c2;
+        document.getElementById('c3').innerText = t.c3;
+        document.getElementById('c4').innerText = t.c4;
         render('all');
     }
 
