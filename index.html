@@ -6,27 +6,19 @@
     <title>Visit Sri Lanka Pro</title>
     <style>
         :root { --primary: #1a73e8; --secondary: #ff9f43; --bg: #f8f9fa; --text: #333; --card-bg: white; }
-        /* Dark Mode Styles */
         body.dark-mode { --primary: #8ab4f8; --bg: #121212; --text: #e8eaed; --card-bg: #1e1e1e; }
-        
         body { font-family: 'Segoe UI', Roboto, sans-serif; margin: 0; background: var(--bg); color: var(--text); overflow-x: hidden; transition: 0.3s; }
         
         /* Splash Screen */
-        #splash-screen {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: #1a73e8; display: flex; flex-direction: column;
-            justify-content: center; align-items: center; z-index: 2000;
-            color: white; text-align: center; transition: opacity 0.5s ease;
-        }
-        .splash-title { font-size: 32px; font-weight: bold; margin-bottom: 20px; }
-        .loader { width: 120px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 10px; overflow: hidden; }
+        #splash-screen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a73e8; display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 2000; color: white; }
+        .loader { width: 120px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 10px; overflow: hidden; margin-top: 20px; }
         .progress { width: 0%; height: 100%; background: white; animation: load 2.5s forwards; }
         @keyframes load { to { width: 100%; } }
 
-        .header { background: #1a73e8; color: white; padding: 35px 20px 10px 20px; text-align: center; border-radius: 0 0 25px 25px; position: relative; }
+        .header { background: #1a73e8; color: white; padding: 35px 20px 15px 20px; text-align: center; border-radius: 0 0 25px 25px; position: relative; }
         .dark-toggle { position: absolute; right: 20px; top: 35px; background: none; border: none; font-size: 24px; cursor: pointer; }
         .lang-btn { background: var(--secondary); border: none; padding: 8px 18px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
-        .search-bar { width: 90%; padding: 12px 20px; border-radius: 25px; border: none; font-size: 16px; outline: none; margin-top: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .search-bar { width: 90%; padding: 12px 20px; border-radius: 25px; border: none; font-size: 16px; margin-top: 10px; }
         
         .hero-section { padding: 10px 0 20px 0; background: linear-gradient(to bottom, #1a73e8, var(--bg)); }
         .featured-slider { display: flex; overflow-x: auto; gap: 15px; padding: 10px 20px; scrollbar-width: none; }
@@ -40,50 +32,37 @@
 
         .section-title { padding: 0 20px; font-size: 18px; font-weight: bold; margin: 15px 0 5px 0; }
         .cat-container { display: flex; overflow-x: auto; padding: 10px 20px; gap: 10px; white-space: nowrap; scrollbar-width: none; }
-        .cat-btn { background: var(--card-bg); border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 14px; color: var(--text); }
+        .cat-btn { background: var(--card-bg); border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; color: var(--text); }
         .cat-btn.active { background: #1a73e8; color: white; border-color: #1a73e8; }
 
         .container { padding: 10px 20px; display: grid; gap: 20px; }
         .card { background: var(--card-bg); border-radius: 20px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.05); position: relative; }
         .card img { width: 100%; height: 200px; object-fit: cover; }
         .card-content { padding: 15px; }
-        
         .fav-icon { position: absolute; top: 15px; right: 15px; background: white; border-radius: 50%; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; font-size: 20px; cursor: pointer; color: #ccc; }
         .fav-icon.active { color: #e91e63; }
 
         .btn { background: #1a73e8; color: white; border: none; padding: 10px; width: 100%; border-radius: 12px; font-weight: bold; cursor: pointer; }
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; padding: 20px; box-sizing: border-box; overflow-y: auto; color: var(--text); }
+        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 3000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .close-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; position: absolute; right: 20px; top: 20px; }
         
-        .details-img { width: 100%; height: 250px; object-fit: cover; border-radius: 20px; margin-top: 40px; }
-        .location-badge { display: inline-block; background: #e8f0fe; color: #1a73e8; padding: 5px 12px; border-radius: 15px; font-size: 14px; font-weight: bold; margin-top: 10px; }
         .quick-info-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 15px; }
-        .info-item { background: var(--card-bg); border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; }
-        .info-text { font-size: 10px; font-weight: bold; }
+        .info-item { background: var(--card-bg); border: 1px solid #eee; padding: 10px; border-radius: 15px; text-align: center; font-size: 10px; }
 
         #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 12px 25px; border-radius: 30px; font-size: 14px; z-index: 5000; display: none; }
-        .whatsapp-btn { position: fixed; bottom: 20px; right: 20px; background: #25D366; color: white; width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 24px; text-decoration: none; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        
-        .info-card { background: var(--card-bg); border: 1px solid #eee; border-radius: 15px; padding: 15px; margin-top: 15px; }
-        .info-title { font-weight: bold; color: #1a73e8; border-bottom: 1px solid #eee; padding-bottom: 5px; display: block; }
-        .map-link { display: block; background: #1a73e8; color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
-        
-        .weather-box, .currency-box, .planner-box { background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: center; margin-top: 20px; border: 1px solid #eee; }
-        .contact-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; }
+        .weather-box, .currency-box { background: var(--card-bg); padding: 20px; border-radius: 15px; text-align: center; margin-top: 20px; }
     </style>
 </head>
 <body>
 
 <div id="splash-screen">
-    <div class="splash-title">Welcome to Sri Lanka</div>
+    <div style="font-size: 24px; font-weight: bold;">Visit Sri Lanka</div>
     <div class="loader"><div class="progress"></div></div>
 </div>
 
 <div id="custom-toast"></div>
-<a href="https://wa.me/94700000000" class="whatsapp-btn" target="_blank">💬</a>
 
-<div id="main-content">
+<div id="main-content" style="display:none;">
     <div class="header">
         <button class="dark-toggle" onclick="toggleDarkMode()">🌓</button>
         <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">English</button>
@@ -100,18 +79,14 @@
         <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="n2">මුදල් ඒකක</span></div>
         <div class="nav-item" onclick="showPopup('weatherPage'); fetchWeather();">🌤️<br><span id="n3">කාලගුණය</span></div>
         <div class="nav-item" onclick="renderFavorites()">❤️<br><span>කැමතිම</span></div>
-        <div class="nav-item" onclick="showPopup('plannerPage')">📅<br><span>සැලසුම්කරු</span></div>
     </div>
 
     <div class="section-title">Districts / පළාත්</div>
     <div class="cat-container" id="districtBar">
         <button class="cat-btn active" onclick="filterByDistrict('all', this)">All</button>
-        <button class="cat-btn" onclick="filterByDistrict('Matale', this)">මාතලේ</button>
-        <button class="cat-btn" onclick="filterByDistrict('Kandy', this)">මහනුවර</button>
-        <button class="cat-btn" onclick="filterByDistrict('Badulla', this)">බදුල්ල</button>
-        <button class="cat-btn" onclick="filterByDistrict('Matara', this)">මාතර</button>
-        <button class="cat-btn" onclick="filterByDistrict('Anuradhapura', this)">අනුරාධපුරය</button>
-        <button class="cat-btn" onclick="filterByDistrict('Trincomalee', this)">ත්‍රිකුණාමලය</button>
+        <button class="cat-btn" onclick="filterByDistrict('Colombo', this)">කොළඹ</button>
+        <button class="cat-btn" onclick="filterByDistrict('Gampaha', this)">ගම්පහ</button>
+        <button class="cat-btn" onclick="filterByDistrict('Kalutara', this)">කළුතර</button>
     </div>
 
     <div class="section-title" id="catTitleSI">ප්‍රධාන වර්ගීකරණය</div>
@@ -120,55 +95,30 @@
         <button class="cat-btn" onclick="filterCat('culture', this)" id="c1">🏛️ සංස්කෘතික</button>
         <button class="cat-btn" onclick="filterCat('nature', this)" id="c2">⛰️ සොබාදහම</button>
         <button class="cat-btn" onclick="filterCat('beach', this)" id="c3">🏖️ වෙරළ</button>
-        <button class="cat-btn" onclick="filterCat('wild', this)" id="c4">🐘 වනජීවී</button>
     </div>
 
-    <div class="section-title" id="listTitleSI">සංචාරක ස්ථාන</div>
     <div class="container" id="locationList"></div>
-
-    <div id="detailsPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button><div id="detailsContent"></div></div>
-
-    <div id="emergPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t1">හදිසි ඇමතුම් සේවා</h2>
-        <div class="weather-box" style="text-align: left;">
-            <div class="contact-item"><span>Tourist Police</span><a href="tel:1912" class="call-link">📞 1912</a></div>
-            <div class="contact-item"><span>Ambulance</span><a href="tel:1990" class="call-link">📞 1990</a></div>
-            <div class="contact-item"><span>Police</span><a href="tel:119" class="call-link">📞 119</a></div>
-        </div>
-    </div>
-
-    <div id="currencyPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t2">මුදල් පරිවර්තකය</h2>
-        <div class="currency-box">
-            <select id="currencyList" style="padding:10px; border-radius:10px;" onchange="convertCurrency()">
-                <option value="USD">USD 🇺🇸</option><option value="EUR">EUR 🇪🇺</option>
-            </select>
-            <input type="number" id="foreignInput" style="padding:10px; width:100px;" placeholder="Amount" oninput="convertCurrency()">
-            <h3>LKR: <span id="lkrResult">0.00</span></h3>
-        </div>
-    </div>
-
-    <div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t3">සජීවී කාලගුණය 🌤️</h2>
-        <div id="weatherContent" class="weather-box">Loading...</div>
-    </div>
-
-    <div id="plannerPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;">Tour Planner 📅</h2>
-        <div class="planner-box">
-            <input type="number" id="tourDays" style="padding:10px; width:80%;" placeholder="දින ගණන (Days)">
-            <button class="btn" style="margin-top:10px;" onclick="planTour()">Plan Now</button>
-            <div id="planResult" style="margin-top:15px; text-align: left;"></div>
-        </div>
-    </div>
 </div>
 
-<script src="translations.js"></script>
+<div id="detailsPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button><div id="detailsContent"></div></div>
+<div id="emergPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button><h2 id="t1">හදිසි ඇමතුම්</h2><div class="weather-box">Tourist Police: 1912<br>Ambulance: 1990</div></div>
+<div id="currencyPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
+    <h2 id="t2">මුදල් පරිවර්තකය</h2>
+    <div class="currency-box">
+        <input type="number" id="foreignInput" style="padding:10px;" placeholder="Amount" oninput="convertCurrency()">
+        <h3 id="lkrResult">LKR: 0.00</h3>
+    </div>
+</div>
+<div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button><h2 id="t3">කාලගුණය</h2><div id="weatherContent" class="weather-box">පූරණය වෙමින්...</div></div>
+
 <script>
-    // මුල් දත්ත සුරක්ෂිතව තබා ගැනීම
-    let favorites = JSON.parse(localStorage.getItem('app_favs')) || [];
+    // මුලින්ම variables define කරන්න ඕනේ
+    let locations = []; 
+    let favorites = JSON.parse(localStorage.getItem('favs')) || [];
     let currentLang = 'si';
 </script>
+
+<script src="translations.js"></script>
 <script src="locations.js"></script>
 <script src="western1.js"></script>
 <script src="western2.js"></script>
@@ -176,13 +126,10 @@
 <script>
     window.onload = () => {
         setTimeout(() => {
-            document.getElementById('splash-screen').style.opacity = '0';
-            setTimeout(() => {
-                document.getElementById('splash-screen').style.display = 'none';
-                document.getElementById('main-content').style.display = 'block';
-                renderFeatured();
-                render('all');
-            }, 500);
+            document.getElementById('splash-screen').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            renderFeatured();
+            render('all');
         }, 2000);
     };
 
@@ -192,14 +139,22 @@
         const slider = document.getElementById('featuredSlider');
         slider.innerHTML = "";
         locations.slice(0, 5).forEach(loc => {
-            slider.innerHTML += `
-                <div class="featured-card" onclick="showDetails(${loc.id})">
-                    <img src="${loc.img}">
-                    <div class="featured-overlay">
-                        <div style="font-size: 18px; font-weight: bold;">${currentLang === 'si' ? loc.name_si : loc.name_en}</div>
-                    </div>
-                </div>`;
+            slider.innerHTML += `<div class="featured-card" onclick="showDetails(${loc.id})"><img src="${loc.img}"><div class="featured-overlay"><b>${currentLang === 'si' ? loc.name_si : loc.name_en}</b></div></div>`;
         });
+    }
+
+    function createCard(loc) {
+        const isFav = favorites.includes(loc.id) ? 'active' : '';
+        return `
+            <div class="card">
+                <div class="fav-icon ${isFav}" onclick="toggleFav(${loc.id}, event)">❤️</div>
+                <img src="${loc.img}">
+                <div class="card-content">
+                    <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
+                    <div style="color: #1a73e8; font-weight:bold;">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
+                    <button class="btn" style="margin-top:10px;" onclick="showDetails(${loc.id})">${translations[currentLang].view}</button>
+                </div>
+            </div>`;
     }
 
     function render(filter) {
@@ -218,26 +173,12 @@
         filtered.forEach(loc => list.innerHTML += createCard(loc));
     }
 
-    function createCard(loc) {
-        const isFav = favorites.includes(loc.id) ? 'active' : '';
-        return `
-            <div class="card">
-                <div class="fav-icon ${isFav}" onclick="toggleFav(${loc.id}, event)">❤️</div>
-                <img src="${loc.img}">
-                <div class="card-content">
-                    <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
-                    <div class="location-badge">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
-                    <button class="btn" style="margin-top:10px;" onclick="showDetails(${loc.id})">${translations[currentLang].view}</button>
-                </div>
-            </div>`;
-    }
-
     function toggleFav(id, event) {
         event.stopPropagation();
         const idx = favorites.indexOf(id);
         if(idx > -1) favorites.splice(idx, 1);
         else favorites.push(id);
-        localStorage.setItem('app_favs', JSON.stringify(favorites));
+        localStorage.setItem('favs', JSON.stringify(favorites));
         render('all');
     }
 
@@ -245,41 +186,34 @@
         const list = document.getElementById('locationList');
         list.innerHTML = "<h3>My Favorites ❤️</h3>";
         const favs = locations.filter(l => favorites.includes(l.id));
-        if(favs.length === 0) list.innerHTML += "<p>No favorites yet.</p>";
         favs.forEach(loc => list.innerHTML += createCard(loc));
     }
 
     function showDetails(id) {
         const loc = locations.find(l => l.id === id);
         const t = translations[currentLang];
-        const feeVal = currentLang === 'si' ? (loc.fee_si || 'නොමිලේ') : (loc.fee_en || 'Free');
-        const bestVal = currentLang === 'si' ? (loc.best_si || 'ඕනෑම කාලයක') : (loc.best_en || 'Anytime');
-        const doVal = currentLang === 'si' ? (loc.do_si || 'නිරීක්ෂණය') : (loc.do_en || 'Sightseeing');
-
         document.getElementById('detailsContent').innerHTML = `
-            <img src="${loc.img}" class="details-img">
+            <img src="${loc.img}" style="width:100%; border-radius:20px; margin-top:40px;">
             <h2>${currentLang === 'si' ? loc.name_si : loc.name_en}</h2>
-            <div class="location-badge">📍 ${t.loc} ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
             <div class="quick-info-grid">
-                <div class="info-item" onclick="showToast('${feeVal}')"><span>🎫</span><div class="info-text"><b>Fee</b><br>${feeVal}</div></div>
-                <div class="info-item" onclick="showToast('${bestVal}')"><span>☀️</span><div class="info-text"><b>Time</b><br>${bestVal}</div></div>
-                <div class="info-item" onclick="showToast('${doVal}')"><span>📸</span><div class="info-text"><b>Do</b><br>${doVal}</div></div>
+                <div class="info-item"><b>Fee</b><br>${currentLang === 'si' ? loc.fee_si : loc.fee_en}</div>
+                <div class="info-item"><b>Time</b><br>${currentLang === 'si' ? loc.best_si : loc.best_en}</div>
+                <div class="info-item"><b>Do</b><br>${currentLang === 'si' ? loc.do_si : loc.do_en}</div>
             </div>
-            <div class="info-card"><span class="info-title">📖 ${t.about}</span><p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p></div>
-            <div class="info-card"><span class="info-title">🚌 ${t.how}</span><p>${currentLang === 'si' ? loc.reach_si : loc.reach_en}</p></div>
-            <div class="info-card"><span class="info-title">📞 ${t.contact}</span><p>Police: ${loc.police}</p></div>
-            <a href="geo:${loc.lat},${loc.lon}" class="map-link">${t.map}</a>`;
+            <p>${currentLang === 'si' ? loc.desc_si : loc.desc_en}</p>
+            <a href="geo:${loc.lat},${loc.lon}" style="display:block; background:#1a73e8; color:white; text-align:center; padding:15px; text-decoration:none; border-radius:10px;">View on Map</a>`;
         showPopup('detailsPage');
     }
 
-    function planTour() {
-        const days = document.getElementById('tourDays').value;
-        const res = document.getElementById('planResult');
-        if(!days) return;
-        let suggest = locations.slice(0, days * 2);
-        let html = "<b>Suggested Route:</b><ul>";
-        suggest.forEach(s => html += `<li>${currentLang === 'si' ? s.name_si : s.name_en}</li>`);
-        res.innerHTML = html + "</ul>";
+    function showPopup(id) { document.getElementById(id).style.display = "block"; }
+    function closePopups() { document.querySelectorAll('.overlay').forEach(el => el.style.display = 'none'); }
+
+    async function fetchWeather() {
+        try {
+            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
+            const data = await res.json();
+            document.getElementById('weatherContent').innerHTML = `<h1>${data.current_weather.temperature}°C</h1><p>Colombo, Sri Lanka</p>`;
+        } catch(e) { document.getElementById('weatherContent').innerText = "Offline"; }
     }
 
     function toggleLanguage() {
@@ -288,9 +222,6 @@
         document.getElementById('langBtn').innerText = currentLang === 'si' ? 'English' : 'සිංහල';
         document.getElementById('mainTitle').innerText = t.title;
         document.getElementById('search').placeholder = t.search;
-        ['n1','n2','n3','t1','t2','t3','c0','c1','c2','c3','c4'].forEach(id => {
-            if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
-        });
         render('all');
     }
 
@@ -300,10 +231,6 @@
         render(cat);
     }
 
-    function showPopup(id) { document.getElementById(id).style.display = "block"; }
-    function closePopups() { document.querySelectorAll('.overlay').forEach(el => el.style.display = 'none'); }
-    function showToast(msg) { const toast = document.getElementById('custom-toast'); toast.innerText = msg; toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 2000); }
-    
     function searchFn() {
         let input = document.getElementById('search').value.toLowerCase();
         let cards = document.getElementsByClassName('card');
@@ -311,25 +238,6 @@
             let title = cards[i].querySelector('h3').innerText.toLowerCase();
             cards[i].style.display = title.includes(input) ? "block" : "none";
         }
-    }
-
-    async function convertCurrency() {
-        const amount = document.getElementById('foreignInput').value;
-        const from = document.getElementById('currencyList').value;
-        if(!amount) return;
-        try {
-            const res = await fetch(`https://open.er-api.com/v6/latest/${from}`);
-            const data = await res.json();
-            document.getElementById('lkrResult').innerText = (amount * data.rates.LKR).toFixed(2);
-        } catch(e) { console.log(e); }
-    }
-
-    async function fetchWeather() {
-        try {
-            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
-            const data = await res.json();
-            document.getElementById('weatherContent').innerHTML = `<h3>Colombo</h3><h1>${data.current_weather.temperature}°C</h1>`;
-        } catch(e) { document.getElementById('weatherContent').innerText = "Offline"; }
     }
 </script>
 </body>
