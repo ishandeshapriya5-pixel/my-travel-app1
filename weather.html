@@ -3,100 +3,92 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SRI LANKA WEATHER LIVE</title>
+    <title>SRI LANKA WEATHER</title>
     <style>
-        :root { --blue: #1a73e8; }
-        body { font-family: 'Segoe UI', sans-serif; background: #eef2f7; margin: 0; padding: 15px; display: flex; justify-content: center; }
-        .card { background: white; width: 100%; max-width: 380px; padding: 25px; border-radius: 30px; box-shadow: 0 10px 40px rgba(0,0,0,0.1); text-align: center; margin-top: 20px; }
-        .back-nav { display: flex; align-items: center; margin-bottom: 20px; cursor: pointer; color: var(--blue); font-weight: bold; border: none; background: none; }
-        select { width: 100%; padding: 15px; border-radius: 15px; border: 2px solid #ddd; font-size: 16px; margin: 15px 0; outline: none; -webkit-appearance: none; }
-        .temp-circle { width: 150px; height: 150px; border: 8px solid #f0f4f8; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 20px auto; font-size: 45px; font-weight: bold; color: var(--blue); }
-        .loading { font-weight: bold; color: #ff9f43; display: none; }
-        .error-msg { color: red; font-size: 14px; display: none; margin-top: 10px; }
+        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; padding: 20px; }
+        .card { background: white; width: 100%; max-width: 400px; padding: 30px; border-radius: 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); text-align: center; }
+        .back-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 10px; cursor: pointer; float: left; }
+        select { width: 100%; padding: 15px; border-radius: 10px; border: 1px solid #ccc; margin: 20px 0; font-size: 16px; }
+        .temp { font-size: 60px; font-weight: bold; color: #1a73e8; margin: 20px 0; }
+        #status { font-weight: bold; color: #555; }
+        .loader { display: none; color: blue; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <button class="back-nav" onclick="window.history.back()">⬅️ Back to Home</button>
-    <h2 style="margin:0;">ශ්‍රී ලංකා කාලගුණය</h2>
-    
-    <select id="cityBox" onchange="getLiveWeather()">
+    <button class="back-btn" onclick="window.history.back()">⬅️ Back</button>
+    <h2 style="margin-top:50px;">කාලගුණ වාර්තාව</h2>
+
+    <select id="district" onchange="getWeather()">
         <option value="6.9271,79.8612">කොළඹ (Colombo)</option>
-        <option value="7.2906,80.6337">මහනුවර (Kandy)</option>
-        <option value="6.0367,80.2170">ගාල්ල (Galle)</option>
-        <option value="8.3114,80.4037">අනුරාධපුරය (Anuradhapura)</option>
-        <option value="9.6615,80.0255">යාපනය (Jaffna)</option>
-        <option value="6.9497,80.7891">නුවරඑළිය (Nuwara Eliya)</option>
-        <option value="8.5874,81.2152">ත්‍රිකුණාමලය (Trincomalee)</option>
-        <option value="7.7102,81.6924">මඩකලපුව (Batticaloa)</option>
-        <option value="6.6828,80.3992">රත්නපුරය (Ratnapura)</option>
-        <option value="7.4817,80.3609">කුරුණෑගල (Kurunegala)</option>
-        <option value="6.1245,81.1185">හම්බන්තොට (Hambantota)</option>
-        <option value="7.9891,79.8453">පුත්තලම (Puttalam)</option>
-        <option value="6.9895,81.0557">බදුල්ල (Badulla)</option>
         <option value="7.0840,80.0098">ගම්පහ (Gampaha)</option>
         <option value="6.5854,79.9607">කලුතර (Kalutara)</option>
+        <option value="7.2906,80.6337">මහනුවර (Kandy)</option>
         <option value="7.1895,80.4573">මාතලේ (Matale)</option>
+        <option value="6.9497,80.7891">නුවරඑළිය (Nuwara Eliya)</option>
+        <option value="6.0367,80.2170">ගාල්ල (Galle)</option>
         <option value="5.9549,80.5550">මාතර (Matara)</option>
+        <option value="6.1245,81.1185">හම්බන්තොට (Hambantota)</option>
+        <option value="9.6615,80.0255">යාපනය (Jaffna)</option>
         <option value="9.3803,80.3770">වවුනියාව (Vavuniya)</option>
         <option value="8.9810,80.2311">මන්නාරම (Mannar)</option>
         <option value="9.3184,80.3982">මුලතිව් (Mullaitivu)</option>
         <option value="9.4848,80.3982">කිලිනොච්චිය (Kilinochchi)</option>
+        <option value="7.7102,81.6924">මඩකලපුව (Batticaloa)</option>
+        <option value="8.5874,81.2152">ත්‍රිකුණාමලය (Trincomalee)</option>
         <option value="7.4123,81.8242">අම්පාර (Ampara)</option>
+        <option value="7.4817,80.3609">කුරුණෑගල (Kurunegala)</option>
+        <option value="7.9891,79.8453">පුත්තලම (Puttalam)</option>
+        <option value="8.3114,80.4037">අනුරාධපුරය (Anuradhapura)</option>
         <option value="7.9403,81.0188">පොළොන්නරුව (Polonnaruwa)</option>
+        <option value="6.9895,81.0557">බදුල්ල (Badulla)</option>
         <option value="6.8259,81.3392">මොණරාගල (Monaragala)</option>
+        <option value="6.6828,80.3992">රත්නපුරය (Ratnapura)</option>
         <option value="7.2513,80.3464">කෑගල්ල (Kegalle)</option>
     </select>
 
-    <div id="loader" class="loading">දත්ත ලබා ගනිමින් පවතී...</div>
+    <div id="loader" class="loader">දත්ත ලබා ගනිමින්...</div>
 
-    <div id="displayArea">
-        <div class="temp-circle" id="tempText">--°C</div>
-        <h3 id="cityName" style="margin:5px 0;">කොළඹ</h3>
-        <p id="weatherStat" style="color:#666;">සජීවී දත්ත ලබා ගැනීමට සූදානම්</p>
+    <div id="weatherData">
+        <div class="temp" id="tempDisplay">--°C</div>
+        <div id="status">පූරණය වෙමින්...</div>
     </div>
-    
-    <div id="errorArea" class="error-msg">⚠️ දත්ත ලබාගත නොහැකි විය. කරුණාකර නැවත උත්සාහ කරන්න.</div>
 </div>
 
 <script>
-    async function getLiveWeather() {
-        const cityBox = document.getElementById('cityBox');
+    async function getWeather() {
+        const district = document.getElementById('district');
+        const coords = district.value.split(',');
         const loader = document.getElementById('loader');
-        const errorArea = document.getElementById('errorArea');
-        const coords = cityBox.value.split(',');
-        const name = cityBox.options[cityBox.selectedIndex].text.split(' ')[0];
+        const weatherData = document.getElementById('weatherData');
 
-        // UI සකස් කිරීම
-        loader.style.display = 'block';
-        errorArea.style.display = 'none';
+        loader.style.display = "block";
+        weatherData.style.opacity = "0.3";
 
         try {
-            // API වෙතින් දත්ත ඉල්ලීම
-            const response = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&current_weather=true`);
+            // මෙන්න මේ Link එක ඔබේ Browser එකේ වැඩ නොකලත් කේතය ඇතුළේ වැඩ කරනු ඇත
+            const apiLink = `https://api.open-meteo.com/1/v1/forecast?latitude=${coords[0]}&longitude=${coords[1]}&current_weather=true`;
             
-            if (!response.ok) throw new Error('Network error');
-
+            const response = await fetch(apiLink);
             const data = await response.json();
-            const temperature = Math.round(data.current_weather.temperature);
 
-            // දත්ත පෙන්වීම
-            document.getElementById('tempText').innerText = temperature + "°C";
-            document.getElementById('cityName').innerText = name;
-            document.getElementById('weatherStat').innerText = "පවතින උෂ්ණත්වය 🌤️";
-            
-        } catch (err) {
-            console.error(err);
-            errorArea.style.display = 'block';
-            document.getElementById('tempText').innerText = "--";
+            if (data && data.current_weather) {
+                document.getElementById('tempDisplay').innerText = Math.round(data.current_weather.temperature) + "°C";
+                document.getElementById('status').innerText = "සජීවී කාලගුණය 🌤️";
+            } else {
+                document.getElementById('status').innerText = "දත්ත ලබා ගත නොහැක.";
+            }
+        } catch (error) {
+            document.getElementById('status').innerText = "Internet Connection එක පරීක්ෂා කරන්න.";
         } finally {
-            loader.style.display = 'none';
+            loader.style.display = "none";
+            weatherData.style.opacity = "1";
         }
     }
 
-    // පිටුව විවෘත වූ වහාම දත්ත ලබා ගැනීම ආරම්භ කරන්න
-    window.onload = getLiveWeather;
+    // පිටුව විවෘත වූ වහාම දත්ත පෙන්වන්න
+    window.onload = getWeather;
 </script>
 
 </body>
