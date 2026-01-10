@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select Province - Visit Sri Lanka</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; text-align: center; }
+        
+        .header { margin-bottom: 30px; }
+        .header h1 { color: var(--primary); font-size: 24px; }
+
+        .province-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .province-card {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .province-card:active { transform: scale(0.95); }
+        .province-card i { font-size: 30px; margin-bottom: 10px; }
+
+        .back-btn {
+            margin-top: 30px;
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--primary);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>පළාත තෝරන්න <br> <small>Select Province</small></h1>
+    </div>
+
+    <div class="province-grid">
+        <a href="index.html?province=western" class="province-card">
+            <span>Western</span>
+            <span>බස්නාහිර</span>
+        </a>
+        
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>Central</span>
+            <span>මධ්‍යම</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>Southern</span>
+            <span>දකුණ</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>North Western</span>
+            <span>වයඹ</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>Sabaragamuwa</span>
+            <span>සබරගමුව</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>Eastern</span>
+            <span>නැගෙනහිර</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>Uva</span>
+            <span>ඌව</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>North Central</span>
+            <span>උතුරු මැද</span>
+        </div>
+
+        <div class="province-card" onclick="alert('ළඟදීම බලාපොරොත්තු වන්න!')">
+            <span>Northern</span>
+            <span>උතුර</span>
+        </div>
+    </div>
+
+    <a href="index.html" class="back-btn">ප්‍රධාන පිටුවට</a>
+
+</body>
+</html>
