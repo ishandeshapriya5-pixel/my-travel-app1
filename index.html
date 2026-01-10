@@ -82,7 +82,6 @@
         .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
         
-        .weather-box { background: white; padding: 25px; border-radius: 15px; text-align: center; margin-top: 20px; border: 2px solid var(--primary); }
         .currency-box { background: #f0f4f8; padding: 20px; border-radius: 15px; text-align: center; }
         .currency-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
         .currency-select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
@@ -114,7 +113,6 @@
     <div class="nav-bar">
         <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
         <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="n2">මුදල් ඒකක</span></div>
-        <div class="nav-item" onclick="showPopup('weatherPage'); fetchWeather();">🌤️<br><span id="n3">කාලගුණය</span></div>
     </div>
 
     <div class="section-title" id="catTitleSI">ප්‍රධාන වර්ගීකරණය</div>
@@ -151,11 +149,6 @@
             <h3>LKR: <span id="lkrResult">0.00</span></h3>
         </div>
     </div>
-
-    <div id="weatherPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t3">සජීවී කාලගුණය 🌤️</h2>
-        <div id="weatherContent" class="weather-box">පූරණය වෙමින් පවතී...</div>
-    </div>
 </div>
 
 <script src="translations.js"></script>
@@ -178,11 +171,9 @@
         }, 2000);
     };
 
-    // --- UI Update: Featured Slider Logic ---
     function renderFeatured() {
         const slider = document.getElementById('featuredSlider');
         slider.innerHTML = "";
-        // locations array එකේ ඇති මුල් ස්ථාන 5 Featured ලෙස පෙන්වමු
         const featured = locations.slice(0, 5); 
         featured.forEach(loc => {
             slider.innerHTML += `
@@ -196,7 +187,6 @@
         });
     }
 
-    // --- CORE LOGIC (Keeping your original functions intact) ---
     function render(filter) {
         const list = document.getElementById('locationList');
         list.innerHTML = "";
@@ -249,14 +239,13 @@
         document.getElementById('search').placeholder = t.search;
         document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන වර්ගීකරණය' : 'Explore Categories';
         document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Nearby Locations';
-        ['n1','n2','n3','t1','t2','t3','c0','c1','c2','c3','c4'].forEach(id => {
+        ['n1','n2','t1','t2','c0','c1','c2','c3','c4'].forEach(id => {
             if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
         });
         renderFeatured();
         render('all');
     }
 
-    // Search & Filter (Original)
     function filterCat(cat, btn) {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
@@ -275,7 +264,6 @@
         }
     }
 
-    // Currency & Weather (Existing logic)
     async function convertCurrency() {
         const amount = document.getElementById('foreignInput').value;
         const fromCurrency = document.getElementById('currencyList').value;
@@ -286,17 +274,6 @@
             const data = await res.json();
             resultEl.innerText = (amount * data.rates.LKR).toLocaleString();
         } catch (e) { resultEl.innerText = "Error"; }
-    }
-
-    async function fetchWeather() {
-        const weatherBox = document.getElementById('weatherContent');
-        weatherBox.innerHTML = translations[currentLang].loading;
-        try {
-            const res = await fetch(`https://api.open-meteo.com/1/v1/forecast?latitude=6.9271&longitude=79.8612&current_weather=true`);
-            const data = await res.json();
-            const temp = Math.round(data.current_weather.temperature);
-            weatherBox.innerHTML = `<div style="font-size:40px;">🌤️ ${temp}°C</div><p>Colombo, Sri Lanka</p>`;
-        } catch (e) { weatherBox.innerHTML = "Offline"; }
     }
 </script>
 </body>
