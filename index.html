@@ -20,7 +20,7 @@
         .progress { width: 0%; height: 100%; background: white; animation: load 2.5s forwards; }
         @keyframes load { to { width: 100%; } }
 
-        /* --- NEW INTERFACE STYLES --- */
+        /* --- INTERFACE STYLES --- */
         .hero-section {
             padding: 10px 0 20px 0;
             background: linear-gradient(to bottom, var(--primary), var(--bg));
@@ -43,7 +43,6 @@
         }
         .section-title { padding: 0 20px; font-size: 18px; font-weight: bold; margin: 15px 0 5px 0; color: #444; }
 
-        /* Main Styles (Existing) */
         #main-content { display: none; }
         .header { background: var(--primary); color: white; padding: 35px 20px 10px 20px; text-align: center; border-radius: 0 0 25px 25px; }
         .lang-btn { background: var(--secondary); border: none; padding: 8px 18px; border-radius: 20px; color: white; font-weight: bold; cursor: pointer; margin-bottom: 15px; }
@@ -81,11 +80,6 @@
         .contact-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
         .call-link { background: #28a745; color: white; padding: 5px 12px; border-radius: 10px; text-decoration: none; font-size: 13px; }
         .map-link { display: block; background: var(--primary); color: white; text-align: center; padding: 15px; text-decoration: none; border-radius: 12px; margin-top: 20px; font-weight: bold; }
-        
-        .currency-box { background: #f0f4f8; padding: 20px; border-radius: 15px; text-align: center; }
-        .currency-input-group { display: flex; gap: 10px; margin-bottom: 15px; }
-        .currency-select { padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
-        .currency-input { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #ccc; }
     </style>
 </head>
 <body>
@@ -111,15 +105,16 @@
     </div>
 
     <div class="nav-bar">
-    <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
-    
-    <a href="weather.html" style="text-decoration: none; color: inherit;">
-        <div class="nav-item">🌤️<br><span>කාලගුණය</span></div>
-    </a>
+        <div class="nav-item" onclick="showPopup('emergPage')">🚨<br><span id="n1">හදිසි ඇමතුම්</span></div>
+        
+        <a href="weather.html" style="text-decoration: none; color: inherit;">
+            <div class="nav-item">🌤️<br><span>කාලගුණය</span></div>
+        </a>
 
-    <div class="nav-item" onclick="showPopup('currencyPage')">💰<br><span id="n2">මුදල් ඒකක</span></div>
-</div>
-
+        <a href="currency.html" style="text-decoration: none; color: inherit;">
+            <div class="nav-item">💰<br><span id="n2">මුදල් ඒකක</span></div>
+        </a>
+    </div>
 
     <div class="section-title" id="catTitleSI">ප්‍රධාන වර්ගීකරණය</div>
     <div class="cat-container" id="catBar">
@@ -134,6 +129,7 @@
     <div class="container" id="locationList"></div>
 
     <div id="detailsPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button><div id="detailsContent"></div></div>
+    
     <div id="emergPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
         <h2 style="margin-top:40px;" id="t1">හදිසි ඇමතුම් සේවා</h2>
         <div style="background:#fff1f1; padding:20px; border-radius:15px;">
@@ -142,24 +138,11 @@
             <div class="contact-item" style="margin-top:10px;"><span>Police</span><a href="tel:119" class="call-link">📞 119</a></div>
         </div>
     </div>
-
-    <div id="currencyPage" class="overlay"><button class="close-btn" onclick="closePopups()">×</button>
-        <h2 style="margin-top:40px;" id="t2">මුදල් පරිවර්තකය</h2>
-        <div class="currency-box">
-            <div class="currency-input-group">
-                <select id="currencyList" class="currency-select" onchange="convertCurrency()">
-                    <option value="USD">USD 🇺🇸</option><option value="EUR">EUR 🇪🇺</option><option value="GBP">GBP 🇬🇧</option>
-                </select>
-                <input type="number" id="foreignInput" class="currency-input" placeholder="Amount" oninput="convertCurrency()">
-            </div>
-            <h3>LKR: <span id="lkrResult">0.00</span></h3>
-        </div>
-    </div>
 </div>
 
 <script src="translations.js"></script>
 <script>let locations = [];</script>
-<script src="locations.js"></script> <script src="western1.js"></script>
+<script src="western1.js"></script>
 <script src="western2.js"></script>
 <script src="western3.js"></script>
 <script src="western4.js"></script>
@@ -247,7 +230,7 @@
         document.getElementById('search').placeholder = t.search;
         document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන වර්ගීකරණය' : 'Explore Categories';
         document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Nearby Locations';
-        ['n1','n2','t1','t2','c0','c1','c2','c3','c4'].forEach(id => {
+        ['n1','n2','t1','c0','c1','c2','c3','c4'].forEach(id => {
             if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
         });
         renderFeatured();
@@ -270,18 +253,6 @@
             let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
             cards[i].style.display = title.includes(input) ? "block" : "none";
         }
-    }
-
-    async function convertCurrency() {
-        const amount = document.getElementById('foreignInput').value;
-        const fromCurrency = document.getElementById('currencyList').value;
-        const resultEl = document.getElementById('lkrResult');
-        if (!amount || amount <= 0) { resultEl.innerText = "0.00"; return; }
-        try {
-            const res = await fetch(`https://open.er-api.com/v6/latest/${fromCurrency}`);
-            const data = await res.json();
-            resultEl.innerText = (amount * data.rates.LKR).toLocaleString();
-        } catch (e) { resultEl.innerText = "Error"; }
     }
 </script>
 </body>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="si">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter - Visit Sri Lanka</title>
+    <style>
+        :root { --primary: #1a73e8; --bg: #f8f9fa; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 20px; text-align: center; }
+        
+        .header { margin-bottom: 30px; display: flex; align-items: center; gap: 15px; }
+        .back-btn { background: #eee; border: none; padding: 10px 15px; border-radius: 50%; font-size: 20px; text-decoration: none; color: #333; }
+        
+        .currency-box { 
+            background: white; padding: 30px; border-radius: 20px; 
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; margin: 0 auto;
+        }
+        .currency-input-group { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+        .currency-select, .currency-input { 
+            padding: 12px; border-radius: 12px; border: 1px solid #ddd; font-size: 16px; outline: none;
+        }
+        .result-area { 
+            background: #e8f0fe; padding: 20px; border-radius: 15px; 
+            margin-top: 10px; border: 1px dashed var(--primary);
+        }
+        h2 { color: var(--primary); margin: 0; }
+        .lkr-val { font-size: 28px; font-weight: bold; color: #333; display: block; margin-top: 5px; }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <a href="index.html" class="back-btn">←</a>
+        <h2>මුදල් පරිවර්තකය</h2>
+    </div>
+
+    <div class="currency-box">
+        <div class="currency-input-group">
+            <label style="text-align: left; font-weight: bold;">මුදල් ඒකකය තෝරන්න:</label>
+            <select id="currencyList" class="currency-select" onchange="convertCurrency()">
+                <option value="USD">USD - US Dollar 🇺🇸</option>
+                <option value="EUR">EUR - Euro 🇪🇺</option>
+                <option value="GBP">GBP - British Pound 🇬🇧</option>
+                <option value="AUD">AUD - Australian Dollar 🇦🇺</option>
+                <option value="JPY">JPY - Japanese Yen 🇯🇵</option>
+                <option value="SAR">SAR - Saudi Riyal 🇸🇦</option>
+                <option value="AED">AED - UAE Dirham 🇦🇪</option>
+            </select>
+            
+            <label style="text-align: left; font-weight: bold;">ප්‍රමාණය ඇතුළත් කරන්න:</label>
+            <input type="number" id="foreignInput" class="currency-input" placeholder="0.00" oninput="convertCurrency()">
+        </div>
+
+        <div class="result-area">
+            <span style="font-size: 14px; color: #666;">ශ්‍රී ලංකා රුපියල් (LKR)</span>
+            <span class="lkr-val" id="lkrResult">0.00</span>
+        </div>
+        <p style="font-size: 11px; color: #999; margin-top: 15px;">*සජීවී විනිමය අනුපාත භාවිතා වේ (Open Exchange API)</p>
+    </div>
+
+    <script>
+        async function convertCurrency() {
+            const amount = document.getElementById('foreignInput').value;
+            const fromCurrency = document.getElementById('currencyList').value;
+            const resultEl = document.getElementById('lkrResult');
+            
+            if (!amount || amount <= 0) { 
+                resultEl.innerText = "0.00"; 
+                return; 
+            }
+
+            try {
+                const res = await fetch(`https://open.er-api.com/v6/latest/${fromCurrency}`);
+                const data = await res.json();
+                const rate = data.rates.LKR;
+                const converted = (amount * rate).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2});
+                resultEl.innerText = converted;
+            } catch (e) { 
+                resultEl.innerText = "Error"; 
+            }
+        }
+    </script>
+</body>
+</html>
