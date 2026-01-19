@@ -31,8 +31,8 @@
         }
         .search-icon { position: absolute; left: 15px; top: 12px; color: #777; }
 
-        /* DISTRICT FILTER STYLE - නව එකතු කිරීම */
-        .district-filter-select {
+        /* District Filter Style - නව එකතු කිරීම */
+        .district-filter {
             width: 100%; margin-top: 10px; padding: 10px; border-radius: 10px;
             border: 1px solid #eee; background: #fff; font-size: 14px; outline: none;
         }
@@ -63,7 +63,7 @@
         .card h3 { margin: 0 0 5px; font-size: 17px; }
         .card p { margin: 0; font-size: 13px; color: #666; display: flex; align-items: center; gap: 5px; }
 
-        /* Popup / Details */
+        /* Popup / Details - මුල් කේතයට අනුව */
         .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1500; display: none; overflow-y: auto; }
         .details-header { position: relative; height: 300px; }
         .details-img { width: 100%; height: 100%; object-fit: cover; }
@@ -95,7 +95,7 @@
             <span class="search-icon">🔍</span>
             <input type="text" id="search" class="search-bar" placeholder="ස්ථානයක් සොයන්න..." oninput="searchFn()">
             
-            <select id="districtFilter" class="district-filter-select" onchange="searchFn()">
+            <select id="districtFilter" class="district-filter" onchange="searchFn()">
                 <option value="all">සියලුම දිස්ත්‍රික්ක (All Districts)</option>
                 <option value="කොළඹ">කොළඹ (Colombo)</option>
                 <option value="ගම්පහ">ගම්පහ (Gampaha)</option>
@@ -134,17 +134,14 @@
         <div class="details-body">
             <h2 id="det-title" style="margin: 0 0 10px;"></h2>
             <p id="det-loc" style="color: #666; font-size: 14px; margin-bottom: 20px;"></p>
-            
             <h4 id="det-about-label">ස්ථානය ගැන:</h4>
             <p id="det-desc" style="line-height: 1.6; color: #444; font-size: 15px;"></p>
-
             <div class="info-grid">
                 <div class="info-box"><span id="det-how-label">ලඟා වන ආකාරය:</span><b id="det-reach"></b></div>
                 <div class="info-box"><span id="det-fee-label">ගාස්තු:</span><b id="det-fee"></b></div>
                 <div class="info-box"><span id="det-best-label">හොඳම කාලය:</span><b id="det-best"></b></div>
                 <div class="info-box"><span id="det-do-label">කළ හැකි දේ:</span><b id="det-do"></b></div>
             </div>
-
             <div style="margin-top: 25px; padding: 15px; background: #fff5f5; border-radius: 15px; border: 1px solid #ffebeb;">
                 <span style="font-size: 11px; color: #e74c3c; font-weight: bold;" id="det-contact-label">ප්‍රදේශයේ හදිසි අංක 📞</span>
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
@@ -152,7 +149,6 @@
                     <a id="det-call" href="" style="background: #e74c3c; color: white; padding: 5px 15px; border-radius: 10px; text-decoration: none; font-size: 12px;">Call Now</a>
                 </div>
             </div>
-
             <a id="det-map" href="" target="_blank" class="map-btn">Google Map එකෙන් බලන්න 📍</a>
         </div>
     </div>
@@ -173,8 +169,7 @@
             let prog = document.getElementById('progress');
             let width = 0;
             let interval = setInterval(() => {
-                width += 10;
-                prog.style.width = width + '%';
+                width += 10; prog.style.width = width + '%';
                 if(width >= 100) {
                     clearInterval(interval);
                     setTimeout(() => {
@@ -199,7 +194,6 @@
             document.getElementById('search').placeholder = t.search;
             document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන වර්ගීකරණය' : 'Explore Categories';
             document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Nearby Locations';
-            
             ['n1','n2','n3','c0','c1','c2','c3','c4'].forEach(id => {
                 if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
             });
@@ -214,13 +208,7 @@
                 const f = document.createElement('div');
                 f.className = 'featured-card';
                 f.onclick = () => openDetails(loc.id);
-                f.innerHTML = `
-                    <img class="featured-img" src="${loc.img}">
-                    <div class="featured-overlay">
-                        <div style="font-size: 14px; font-weight: bold;">${currentLang === 'si' ? loc.name_si : loc.name_en}</div>
-                        <div style="font-size: 11px; opacity: 0.8;">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
-                    </div>
-                `;
+                f.innerHTML = `<img class="featured-img" src="${loc.img}"><div class="featured-overlay"><div style="font-size: 14px; font-weight: bold;">${currentLang === 'si' ? loc.name_si : loc.name_en}</div><div style="font-size: 11px; opacity: 0.8;">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div></div>`;
                 feat.appendChild(f);
             });
         }
@@ -229,24 +217,15 @@
             const grid = document.getElementById('location-grid');
             grid.innerHTML = '';
             let filtered = category === 'all' ? locations : locations.filter(l => l.cat === category);
-            
             filtered.forEach(loc => {
                 const card = document.createElement('div');
                 card.className = 'card';
                 card.onclick = () => openDetails(loc.id);
-                card.innerHTML = `
-                    <img class="card-img" src="${loc.img}" loading="lazy">
-                    <div class="card-tag">${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
-                    <div class="card-content">
-                        <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
-                        <p>📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</p>
-                    </div>
-                `;
+                card.innerHTML = `<img class="card-img" src="${loc.img}" loading="lazy"><div class="card-tag">${currentLang === 'si' ? loc.district_si : loc.district_en}</div><div class="card-content"><h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3><p>📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</p></div>`;
                 grid.appendChild(card);
             });
         }
 
-        // පවතින searchFn එක යාවත්කාලීන කිරීම (District Filter එක සමඟ)
         function searchFn() {
             let input = document.getElementById('search').value.toLowerCase();
             let districtInput = document.getElementById('districtFilter').value;
@@ -254,16 +233,13 @@
 
             for (let i = 0; i < cards.length; i++) {
                 let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-                let tagText = cards[i].getElementsByClassName('card-tag')[0].innerText; // දිස්ත්‍රික්කය card එකේ තියෙනවා
+                let tagText = cards[i].getElementsByClassName('card-tag')[0].innerText;
 
                 let matchName = title.includes(input);
                 let matchDistrict = (districtInput === "all" || tagText === districtInput);
 
-                if (matchName && matchDistrict) {
-                    cards[i].style.display = "";
-                } else {
-                    cards[i].style.display = "none";
-                }
+                if (matchName && matchDistrict) { cards[i].style.display = ""; } 
+                else { cards[i].style.display = "none"; }
             }
         }
 
@@ -276,7 +252,6 @@
         function openDetails(id) {
             const loc = locations.find(l => l.id === id);
             const t = translations[currentLang];
-            
             document.getElementById('det-img').src = loc.img;
             document.getElementById('det-title').innerText = currentLang === 'si' ? loc.name_si : loc.name_en;
             document.getElementById('det-loc').innerText = "📍 " + (currentLang === 'si' ? loc.district_si : loc.district_en);
