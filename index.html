@@ -17,275 +17,275 @@
         }
         .splash-title { font-size: 32px; font-weight: bold; margin-bottom: 20px; text-shadow: 2px 2px 10px rgba(0,0,0,0.3); }
         .loader { width: 120px; height: 4px; background: rgba(255,255,255,0.3); border-radius: 10px; overflow: hidden; }
-        .progress { width: 0%; height: 100%; background: white; transition: width 0.05s linear; }
+        .progress { width: 0%; height: 100%; background: white; transition: width 0.3s; }
 
-        /* Navbar */
-        .navbar { background: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
-        .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .nav-icons { display: flex; gap: 15px; }
-        .nav-btn { background: #f0f2f5; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; text-decoration: none; color: #333; font-size: 14px; font-weight: 500; }
+        /* Header & Search */
+        .header { background: white; padding: 20px 15px; position: sticky; top: 0; z-index: 1000; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .logo { font-size: 22px; font-weight: 800; color: var(--primary); }
+        
+        .search-container { position: relative; }
+        .search-bar { 
+            width: 100%; padding: 12px 15px 12px 45px; border-radius: 12px; 
+            border: 1px solid #eee; background: #f1f3f4; font-size: 15px; outline: none; box-sizing: border-box;
+        }
+        /* නව දිස්ත්‍රික්ක Filter එක සඳහා Style */
+        .district-filter {
+            width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #eee;
+            background: #fff; margin-top: 10px; font-size: 14px; outline: none;
+        }
 
-        /* Updated Search & Filter Section */
-        .search-container { padding: 20px; background: white; }
-        .search-row { display: flex; gap: 10px; margin-bottom: 10px; }
-        .search-bar { flex: 1; padding: 12px 20px; border-radius: 12px; border: 1px solid #ddd; outline: none; font-size: 16px; background: #f8f9fa; }
-        .district-filter { padding: 10px; border-radius: 12px; border: 1px solid #ddd; background: white; font-size: 14px; outline: none; min-width: 130px; }
+        .search-icon { position: absolute; left: 15px; top: 12px; color: #777; }
 
-        /* Hero / Featured Slider */
-        .hero { padding: 20px; overflow: hidden; }
-        .featured-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; scrollbar-width: none; }
-        .featured-scroll::-webkit-scrollbar { display: none; }
-        .featured-card { min-width: 280px; height: 180px; border-radius: 20px; position: relative; overflow: hidden; scroll-snap-align: start; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
-        .featured-card img { width: 100%; height: 100%; object-fit: cover; }
-        .featured-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; }
+        /* Navigation Icons */
+        .nav-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .nav-item { text-align: center; min-width: 65px; text-decoration: none; color: #555; font-size: 11px; }
+        .nav-icon { width: 50px; height: 50px; background: white; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
 
         /* Categories */
-        .categories { display: flex; gap: 10px; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; background: white; }
-        .categories::-webkit-scrollbar { display: none; }
-        .cat-btn { padding: 8px 20px; border-radius: 20px; border: none; background: #f0f2f5; white-space: nowrap; cursor: pointer; font-weight: 500; transition: 0.3s; }
-        .cat-btn.active { background: var(--primary); color: white; }
+        .section-title { padding: 15px 15px 5px; font-size: 16px; font-weight: bold; }
+        .cat-scroll { display: flex; gap: 10px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .cat-btn { padding: 8px 18px; background: white; border-radius: 20px; border: 1px solid #eee; white-space: nowrap; font-size: 13px; font-weight: 500; cursor: pointer; }
+        .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
-        /* Grid */
-        .content { padding: 20px; }
-        .section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
-        .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; position: relative; border: 1px solid #eee; }
-        .card img { width: 100%; height: 120px; object-fit: cover; }
-        .card-info { padding: 10px; }
-        .card-info h3 { margin: 0; font-size: 14px; height: 40px; overflow: hidden; }
-        .card-info p { margin: 5px 0 0; font-size: 12px; color: #777; }
-        .view-btn { display: block; width: 100%; padding: 8px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; }
+        /* Location Cards */
+        .grid { display: grid; grid-template-columns: 1fr; gap: 15px; padding: 15px; }
+        .card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
+        .card-img { width: 100%; height: 200px; object-fit: cover; }
+        .card-content { padding: 15px; }
+        .card-tag { position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.6); color: white; padding: 5px 12px; border-radius: 12px; font-size: 11px; backdrop-filter: blur(5px); }
+        .card h3 { margin: 0 0 5px; font-size: 17px; }
+        .card p { margin: 0; font-size: 13px; color: #666; display: flex; align-items: center; gap: 5px; }
 
-        /* Popup */
-        .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .popup-content { background: white; border-radius: 20px; max-width: 500px; margin: 0 auto; position: relative; overflow: hidden; }
-        .popup-close { position: absolute; top: 15px; right: 15px; background: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; }
-        .popup-img { width: 100%; height: 250px; object-fit: cover; }
-        .popup-body { padding: 20px; }
-        .popup-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: var(--primary); }
-        .popup-meta { background: #f8f9fa; padding: 15px; border-radius: 12px; margin: 15px 0; font-size: 13px; line-height: 1.6; }
-        .map-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #34a853; color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 15px; }
-
-        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 25px; display: none; z-index: 3000; }
+        /* Popup / Details */
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: white; z-index: 1500; display: none; overflow-y: auto; }
+        .details-header { position: relative; height: 300px; }
+        .details-img { width: 100%; height: 100%; object-fit: cover; }
+        .back-float { position: absolute; top: 20px; left: 20px; background: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 10; cursor: pointer; }
+        .details-body { padding: 25px; border-radius: 30px 30px 0 0; background: white; margin-top: -30px; position: relative; }
+        .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .info-box { background: #f8f9fa; padding: 15px; border-radius: 15px; }
+        .info-box span { display: block; font-size: 11px; color: #888; margin-bottom: 5px; }
+        .info-box b { font-size: 13px; color: #333; }
+        
+        .map-btn { display: block; background: #1a73e8; color: white; text-align: center; padding: 15px; border-radius: 15px; text-decoration: none; margin-top: 25px; font-weight: bold; }
+        
+        #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 25px; font-size: 13px; display: none; z-index: 3000; }
     </style>
 </head>
 <body>
 
-<div id="splash-screen">
-    <div class="splash-title">Visit Sri Lanka 🇱🇰</div>
-    <div class="loader"><div class="progress" id="progress"></div></div>
-    <p style="margin-top: 15px; font-size: 14px; opacity: 0.8;">සූදානම් වෙමින් පවතී...</p>
-</div>
-
-<div class="navbar">
-    <div class="logo">Visit Sri Lanka 🇱🇰</div>
-    <div class="nav-icons">
-        <button class="nav-btn" onclick="toggleLang()" id="langBtn">SI</button>
+    <div id="splash-screen">
+        <div class="splash-title">Visit Sri Lanka<br><span style="font-size: 18px; opacity: 0.8;">අපේ ලංකා Guide</span></div>
+        <div class="loader"><div class="progress" id="progress"></div></div>
     </div>
-</div>
 
-<div style="padding: 10px 20px; background: white; display: flex; gap: 10px; justify-content: center;">
-    <a href="currency.html" class="nav-btn">💰 <span id="n2">Currency</span></a>
-    <a href="weather.html" class="nav-btn">🌤️ <span id="n3">Weather</span></a>
-</div>
-
-<div class="search-container">
-    <div class="search-row">
-        <input type="text" id="search" class="search-bar" placeholder="ස්ථානයක් සොයන්න..." oninput="searchFn()">
-        <select id="districtFilter" class="district-filter" onchange="searchFn()">
-            <option value="all">සියලු දිස්ත්‍රික්ක</option>
-            <option value="Colombo">Colombo</option>
-            <option value="Gampaha">Gampaha</option>
-            <option value="Kalutara">Kalutara</option>
-        </select>
-    </div>
-</div>
-
-<div class="hero">
-    <div class="section-title"><span id="catTitleSI">ප්‍රධාන හඳුන්වා දීම්</span></div>
-    <div class="featured-scroll" id="featured-area"></div>
-</div>
-
-<div class="categories">
-    <button class="cat-btn active" onclick="filterCat('all', this)" id="c0">All</button>
-    <button class="cat-btn" onclick="filterCat('culture', this)" id="c1">Culture</button>
-    <button class="cat-btn" onclick="filterCat('nature', this)" id="c2">Nature</button>
-    <button class="cat-btn" onclick="filterCat('beach', this)" id="c3">Beach</button>
-    <button class="cat-btn" onclick="filterCat('wildlife', this)" id="c4">Wildlife</button>
-</div>
-
-<div class="content">
-    <div class="section-title"><span id="listTitleSI">සංචාරක ස්ථාන</span></div>
-    <div id="location-grid" class="grid"></div>
-</div>
-
-<div id="details-popup" class="overlay">
-    <div class="popup-content">
-        <div class="popup-close" onclick="closePopups()">✕</div>
-        <img id="p-img" class="popup-img" src="" alt="">
-        <div class="popup-body">
-            <div id="p-title" class="popup-title"></div>
-            <div id="p-district" style="color: #666; font-size: 14px; margin-bottom: 10px;"></div>
-            <div id="p-desc" style="line-height: 1.6; font-size: 15px;"></div>
-            <div class="popup-meta">
-                <strong>📍 <span id="loc-label">ස්ථානය:</span></strong> <span id="p-reach"></span><br>
-                <strong>🎟️ ටිකට්පත්:</strong> <span id="p-fee"></span><br>
-                <strong>⏰ හොඳම කාලය:</strong> <span id="p-best"></span><br>
-                <strong>✨ කළ හැකි දේ:</strong> <span id="p-do"></span>
-            </div>
-            <div style="background: #fff3e0; padding: 12px; border-radius: 10px; font-size: 13px;">
-                <strong id="contact-label">හදිසි අංක 📞:</strong> <br>
-                පොලිස්: <span id="p-police"></span>
-            </div>
-            <a id="p-map" href="#" target="_blank" class="map-btn">Google Map 📍</a>
+    <div class="header">
+        <div class="top-bar">
+            <div class="logo" id="title">Visit Sri Lanka 🇱🇰</div>
+            <div onclick="toggleLang()" style="cursor: pointer; font-size: 14px; background: #eee; padding: 5px 12px; border-radius: 10px; font-weight: bold;" id="langBtn">EN</div>
+        </div>
+        <div class="search-container">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search" class="search-bar" placeholder="ස්ථානයක් සොයන්න..." oninput="searchFn()">
+            
+            <select id="districtFilter" class="district-filter" onchange="searchFn()">
+                <option value="all">සියලුම දිස්ත්‍රික්ක (All Districts)</option>
+                <option value="කොළඹ">කොළඹ (Colombo)</option>
+                <option value="ගම්පහ">ගම්පහ (Gampaha)</option>
+                <option value="කලුතර">කලුතර (Kalutara)</option>
+            </select>
         </div>
     </div>
-</div>
 
-<div id="custom-toast"></div>
+    <div class="nav-scroll">
+        <a href="provinces.html" class="nav-item"><div class="nav-icon">🗺️</div><span>පළාත්</span></a>
+        <a href="weather.html" class="nav-item"><div class="nav-icon">🌤️</div><span id="n3">කාලගුණය</span></a>
+        <a href="currency.html" class="nav-item"><div class="nav-icon">💰</div><span id="n2">මුදල්</span></a>
+        <a href="tel:119" class="nav-item"><div class="nav-icon" style="color: red;">🚨</div><span id="n1">හදිසි</span></a>
+    </div>
 
-<script src="translations.js"></script>
-<script> var locations = []; </script>
-<script src="western1.js"></script>
-<script src="western2.js"></script>
-<script src="western3.js"></script>
-<script src="western4.js"></script>
+    <div class="section-title" id="catTitleSI">ප්‍රධාන වර්ගීකරණය</div>
+    <div class="cat-scroll">
+        <div class="cat-btn active" onclick="filterCat('all', this)" id="c0">සියල්ල</div>
+        <div class="cat-btn" onclick="filterCat('culture', this)" id="c1">🏛️ සංස්කෘතික</div>
+        <div class="cat-btn" onclick="filterCat('nature', this)" id="c2">⛰️ සොබාදහම</div>
+        <div class="cat-btn" onclick="filterCat('beach', this)" id="c3">🏖️ වෙරළ</div>
+        <div class="cat-btn" onclick="filterCat('wildlife', this)" id="c4">🐘 වනජීවී</div>
+    </div>
 
-<script>
-    let currentLang = 'si';
-    let currentCategory = 'all';
+    <div class="section-title" id="listTitleSI">සංචාරක ස්ථාන</div>
+    <div id="location-grid" class="grid">
+        </div>
 
-    window.onload = () => {
-        let prog = document.getElementById('progress');
-        let width = 0;
-        let interval = setInterval(() => {
-            width += 5;
-            prog.style.width = width + '%';
-            if(width >= 100) {
-                clearInterval(interval);
-                setTimeout(() => {
-                    document.getElementById('splash-screen').style.opacity = '0';
-                    setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 500);
-                }, 300);
-            }
-        }, 50);
-        updateUI();
-    };
-
-    function toggleLang() {
-        currentLang = currentLang === 'si' ? 'en' : 'si';
-        document.getElementById('langBtn').innerText = currentLang === 'si' ? 'EN' : 'SI';
-        updateUI();
-    }
-
-    function updateUI() {
-        const t = translations[currentLang];
-        document.getElementById('search').placeholder = t.search;
-        document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන හඳුන්වා දීම්' : 'Featured Places';
-        document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Locations';
-        
-        ['n2','n3','c0','c1','c2','c3','c4'].forEach(id => {
-            if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
-        });
-        
-        renderFeatured();
-        render('all');
-    }
-
-    function renderFeatured() {
-        const area = document.getElementById('featured-area');
-        area.innerHTML = '';
-        // Showing first 5 locations as featured
-        locations.slice(0, 5).forEach(loc => {
-            const card = document.createElement('div');
-            card.className = 'featured-card';
-            card.onclick = () => openDetails(loc.id);
-            card.innerHTML = `
-                <img src="${loc.img}">
-                <div class="featured-overlay">
-                    <div style="font-weight: bold;">${currentLang === 'si' ? loc.name_si : loc.name_en}</div>
-                    <div style="font-size: 12px; opacity: 0.8;">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
-                </div>
-            `;
-            area.appendChild(card);
-        });
-    }
-
-    function render(cat) {
-        currentCategory = cat;
-        const grid = document.getElementById('location-grid');
-        grid.innerHTML = '';
-        
-        let filtered = locations;
-        if(cat !== 'all') filtered = locations.filter(l => l.cat === cat);
-
-        filtered.forEach(loc => {
-            const card = document.createElement('div');
-            card.className = 'card';
-            // Store data for searching
-            card.setAttribute('data-name-si', loc.name_si.toLowerCase());
-            card.setAttribute('data-name-en', loc.name_en.toLowerCase());
-            card.setAttribute('data-dist-en', loc.district_en);
+    <div id="details-page" class="overlay">
+        <div class="details-header">
+            <div class="back-float" onclick="closePopups()">❮</div>
+            <img id="det-img" class="details-img" src="" alt="">
+        </div>
+        <div class="details-body">
+            <h2 id="det-title" style="margin: 0 0 10px;"></h2>
+            <p id="det-loc" style="color: #666; font-size: 14px; margin-bottom: 20px;"></p>
             
-            card.innerHTML = `
-                <img src="${loc.img}" loading="lazy">
-                <div class="card-info">
-                    <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
-                    <p>📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</p>
-                    <button class="view-btn" onclick="openDetails(${loc.id})">${translations[currentLang].view}</button>
+            <h4 id="det-about-label">ස්ථානය ගැන:</h4>
+            <p id="det-desc" style="line-height: 1.6; color: #444; font-size: 15px;"></p>
+
+            <div class="info-grid">
+                <div class="info-box"><span id="det-how-label">ලඟා වන ආකාරය:</span><b id="det-reach"></b></div>
+                <div class="info-box"><span id="det-fee-label">ගාස්තු:</span><b id="det-fee"></b></div>
+                <div class="info-box"><span id="det-best-label">හොඳම කාලය:</span><b id="det-best"></b></div>
+                <div class="info-box"><span id="det-do-label">කළ හැකි දේ:</span><b id="det-do"></b></div>
+            </div>
+
+            <div style="margin-top: 25px; padding: 15px; background: #fff5f5; border-radius: 15px; border: 1px solid #ffebeb;">
+                <span style="font-size: 11px; color: #e74c3c; font-weight: bold;" id="det-contact-label">ප්‍රදේශයේ හදිසි අංක 📞</span>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+                    <b id="det-police"></b>
+                    <a id="det-call" href="" style="background: #e74c3c; color: white; padding: 5px 15px; border-radius: 10px; text-decoration: none; font-size: 12px;">Call Now</a>
                 </div>
-            `;
-            grid.appendChild(card);
-        });
-        searchFn(); 
-    }
+            </div>
 
-    function searchFn() {
-        let text = document.getElementById('search').value.toLowerCase();
-        let dist = document.getElementById('districtFilter').value;
-        let cards = document.getElementsByClassName('card');
+            <a id="det-map" href="" target="_blank" class="map-btn">Google Map එකෙන් බලන්න 📍</a>
+        </div>
+    </div>
 
-        for (let card of cards) {
-            let nameSi = card.getAttribute('data-name-si');
-            let nameEn = card.getAttribute('data-name-en');
-            let district = card.getAttribute('data-dist-en');
+    <div id="custom-toast"></div>
 
-            let matchesSearch = nameSi.includes(text) || nameEn.includes(text);
-            let matchesDist = (dist === 'all' || district === dist);
+    <script> let locations = []; </script>
+    <script src="translations.js"></script>
+    <script src="western1.js"></script>
+    <script src="western2.js"></script>
+    <script src="western3.js"></script>
+    <script src="western4.js"></script>
 
-            if(matchesSearch && matchesDist) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
+    <script>
+        let currentLang = localStorage.getItem('lang') || 'si';
+
+        // Splash Loader
+        window.onload = () => {
+            let prog = document.getElementById('progress');
+            let width = 0;
+            let interval = setInterval(() => {
+                width += 10;
+                prog.style.width = width + '%';
+                if(width >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        document.getElementById('splash-screen').style.opacity = '0';
+                        setTimeout(() => { document.getElementById('splash-screen').style.display = 'none'; }, 500);
+                    }, 300);
+                }
+            }, 100);
+            updateUI();
+        };
+
+        function toggleLang() {
+            currentLang = currentLang === 'si' ? 'en' : 'si';
+            localStorage.setItem('lang', currentLang);
+            updateUI();
+        }
+
+        function updateUI() {
+            const t = translations[currentLang];
+            document.getElementById('langBtn').innerText = currentLang === 'si' ? 'EN' : 'සිංහල';
+            document.getElementById('title').innerText = t.title;
+            document.getElementById('search').placeholder = t.search;
+            document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන වර්ගීකරණය' : 'Explore Categories';
+            document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Nearby Locations';
+            
+            ['n1','n2','n3','c0','c1','c2','c3','c4'].forEach(id => {
+                if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
+            });
+            render('all');
+        }
+
+        function render(category) {
+            const grid = document.getElementById('location-grid');
+            grid.innerHTML = '';
+            
+            let filtered = category === 'all' ? locations : locations.filter(l => l.cat === category);
+            
+            filtered.forEach(loc => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.setAttribute('onclick', `openDetails(${loc.id})`);
+                card.innerHTML = `
+                    <img class="card-img" src="${loc.img}" loading="lazy">
+                    <div class="card-tag">${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
+                    <div class="card-content">
+                        <h3>${currentLang === 'si' ? loc.name_si : loc.name_en}</h3>
+                        <p>📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</p>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // නව සෙවුම් ශ්‍රිතය (Search + District Filter)
+        function searchFn() {
+            let input = document.getElementById('search').value.toLowerCase();
+            let districtInput = document.getElementById('districtFilter').value;
+            let cards = document.getElementsByClassName('card');
+
+            for (let i = 0; i < cards.length; i++) {
+                let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
+                
+                // Card එකේ තියෙන onclick function එකෙන් id එක අරන් data එක හොයාගන්නවා
+                let locId = cards[i].getAttribute('onclick').match(/\d+/)[0];
+                let locData = locations.find(l => l.id == locId);
+                
+                let district = locData ? locData.district_si : "";
+
+                let matchName = title.includes(input);
+                let matchDistrict = (districtInput === "all" || district === districtInput);
+
+                if (matchName && matchDistrict) {
+                    cards[i].style.display = "";
+                } else {
+                    cards[i].style.display = "none";
+                }
             }
         }
-    }
 
-    function filterCat(cat, btn) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        render(cat);
-    }
+        function filterCat(cat, btn) {
+            document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            render(cat);
+            // Category එක මාරු කරනකොට search එක reset කරන්න (විකල්පව)
+            document.getElementById('search').value = '';
+            document.getElementById('districtFilter').value = 'all';
+        }
 
-    function openDetails(id) {
-        const loc = locations.find(l => l.id === id);
-        const t = translations[currentLang];
-        document.getElementById('p-img').src = loc.img;
-        document.getElementById('p-title').innerText = currentLang === 'si' ? loc.name_si : loc.name_en;
-        document.getElementById('p-district').innerText = `📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}`;
-        document.getElementById('p-desc').innerText = currentLang === 'si' ? loc.desc_si : loc.desc_en;
-        document.getElementById('p-reach').innerText = currentLang === 'si' ? loc.reach_si : loc.reach_en;
-        document.getElementById('p-fee').innerText = currentLang === 'si' ? loc.fee_si : loc.fee_en;
-        document.getElementById('p-best').innerText = currentLang === 'si' ? loc.best_si : loc.best_en;
-        document.getElementById('p-do').innerText = currentLang === 'si' ? loc.do_si : loc.do_en;
-        document.getElementById('p-police').innerText = loc.police;
-        document.getElementById('p-map').href = `https://www.google.com/maps?q=${loc.lat},${loc.lon}`;
-        document.getElementById('details-popup').style.display = "block";
-    }
+        function openDetails(id) {
+            const loc = locations.find(l => l.id === id);
+            const t = translations[currentLang];
+            
+            document.getElementById('det-img').src = loc.img;
+            document.getElementById('det-title').innerText = currentLang === 'si' ? loc.name_si : loc.name_en;
+            document.getElementById('det-loc').innerText = "📍 " + (currentLang === 'si' ? loc.district_si : loc.district_en);
+            document.getElementById('det-desc').innerText = currentLang === 'si' ? loc.desc_si : loc.desc_en;
+            document.getElementById('det-reach').innerText = currentLang === 'si' ? loc.reach_si : loc.reach_en;
+            document.getElementById('det-fee').innerText = currentLang === 'si' ? loc.fee_si : loc.fee_en;
+            document.getElementById('det-best').innerText = currentLang === 'si' ? loc.best_si : loc.best_en;
+            document.getElementById('det-do').innerText = currentLang === 'si' ? loc.do_si : loc.do_en;
+            document.getElementById('det-police').innerText = "Police: " + loc.police;
+            document.getElementById('det-call').href = "tel:" + loc.police;
+            document.getElementById('det-map').href = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`;
+            
+            // Labels translation
+            document.getElementById('det-about-label').innerText = t.about;
+            document.getElementById('det-how-label').innerText = t.how;
+            document.getElementById('det-contact-label').innerText = t.contact;
+            document.getElementById('det-map').innerText = t.map;
 
-    function closePopups() {
-        document.getElementById('details-popup').style.display = "none";
-    }
-</script>
+            document.getElementById('details-page').style.display = "block";
+            document.body.style.overflow = "hidden";
+        }
+
+        function closePopups() {
+            document.getElementById('details-page').style.display = "none";
+            document.body.style.overflow = "auto";
+        }
+    </script>
 </body>
 </html>
