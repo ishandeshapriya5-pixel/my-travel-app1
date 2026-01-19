@@ -25,11 +25,19 @@
         .nav-icons { display: flex; gap: 15px; }
         .nav-btn { background: #f0f2f5; border: none; padding: 8px 12px; border-radius: 10px; cursor: pointer; text-decoration: none; color: #333; font-size: 14px; font-weight: 500; }
 
-        /* Search Section - UPDATED */
-        .search-container { padding: 20px; background: white; display: flex; flex-direction: column; gap: 10px; }
-        .search-bar-wrapper { display: flex; gap: 10px; }
+        /* Updated Search & Filter Section */
+        .search-container { padding: 20px; background: white; }
+        .search-row { display: flex; gap: 10px; margin-bottom: 10px; }
         .search-bar { flex: 1; padding: 12px 20px; border-radius: 12px; border: 1px solid #ddd; outline: none; font-size: 16px; background: #f8f9fa; }
-        .district-filter { padding: 12px; border-radius: 12px; border: 1px solid #ddd; background: white; font-size: 14px; min-width: 120px; outline: none; }
+        .district-filter { padding: 10px; border-radius: 12px; border: 1px solid #ddd; background: white; font-size: 14px; outline: none; min-width: 130px; }
+
+        /* Hero / Featured Slider */
+        .hero { padding: 20px; overflow: hidden; }
+        .featured-scroll { display: flex; gap: 15px; overflow-x: auto; padding-bottom: 10px; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .featured-scroll::-webkit-scrollbar { display: none; }
+        .featured-card { min-width: 280px; height: 180px; border-radius: 20px; position: relative; overflow: hidden; scroll-snap-align: start; box-shadow: 0 8px 20px rgba(0,0,0,0.15); }
+        .featured-card img { width: 100%; height: 100%; object-fit: cover; }
+        .featured-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; }
 
         /* Categories */
         .categories { display: flex; gap: 10px; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; background: white; }
@@ -37,10 +45,9 @@
         .cat-btn { padding: 8px 20px; border-radius: 20px; border: none; background: #f0f2f5; white-space: nowrap; cursor: pointer; font-weight: 500; transition: 0.3s; }
         .cat-btn.active { background: var(--primary); color: white; }
 
-        /* Content Area */
+        /* Grid */
         .content { padding: 20px; }
         .section-title { font-size: 18px; font-weight: bold; margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center; }
-        
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; }
         .card { background: white; border-radius: 15px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); transition: 0.3s; position: relative; border: 1px solid #eee; }
         .card img { width: 100%; height: 120px; object-fit: cover; }
@@ -49,17 +56,16 @@
         .card-info p { margin: 5px 0 0; font-size: 12px; color: #777; }
         .view-btn { display: block; width: 100%; padding: 8px; margin-top: 10px; background: var(--primary); color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 12px; }
 
-        /* Popup Overlay */
+        /* Popup */
         .overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 2000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
         .popup-content { background: white; border-radius: 20px; max-width: 500px; margin: 0 auto; position: relative; overflow: hidden; }
-        .popup-close { position: absolute; top: 15px; right: 15px; background: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10; }
+        .popup-close { position: absolute; top: 15px; right: 15px; background: white; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; cursor: pointer; z-index: 10; }
         .popup-img { width: 100%; height: 250px; object-fit: cover; }
         .popup-body { padding: 20px; }
         .popup-title { font-size: 20px; font-weight: bold; margin-bottom: 10px; color: var(--primary); }
         .popup-meta { background: #f8f9fa; padding: 15px; border-radius: 12px; margin: 15px 0; font-size: 13px; line-height: 1.6; }
         .map-btn { display: flex; align-items: center; justify-content: center; gap: 10px; background: #34a853; color: white; padding: 12px; border-radius: 12px; text-decoration: none; font-weight: bold; margin-top: 15px; }
 
-        /* Toast Message */
         #custom-toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #333; color: white; padding: 10px 20px; border-radius: 25px; display: none; z-index: 3000; }
     </style>
 </head>
@@ -78,21 +84,26 @@
     </div>
 </div>
 
-<div class="nav-icons" style="padding: 10px 20px; background: white; justify-content: center;">
+<div style="padding: 10px 20px; background: white; display: flex; gap: 10px; justify-content: center;">
     <a href="currency.html" class="nav-btn">💰 <span id="n2">Currency</span></a>
     <a href="weather.html" class="nav-btn">🌤️ <span id="n3">Weather</span></a>
 </div>
 
 <div class="search-container">
-    <div class="search-bar-wrapper">
+    <div class="search-row">
         <input type="text" id="search" class="search-bar" placeholder="ස්ථානයක් සොයන්න..." oninput="searchFn()">
         <select id="districtFilter" class="district-filter" onchange="searchFn()">
             <option value="all">සියලු දිස්ත්‍රික්ක</option>
-            <option value="Colombo">Colombo (කොළඹ)</option>
-            <option value="Gampaha">Gampaha (ගම්පහ)</option>
-            <option value="Kalutara">Kalutara (කලුතර)</option>
+            <option value="Colombo">Colombo</option>
+            <option value="Gampaha">Gampaha</option>
+            <option value="Kalutara">Kalutara</option>
         </select>
     </div>
+</div>
+
+<div class="hero">
+    <div class="section-title"><span id="catTitleSI">ප්‍රධාන හඳුන්වා දීම්</span></div>
+    <div class="featured-scroll" id="featured-area"></div>
 </div>
 
 <div class="categories">
@@ -114,21 +125,18 @@
         <img id="p-img" class="popup-img" src="" alt="">
         <div class="popup-body">
             <div id="p-title" class="popup-title"></div>
-            <div id="p-district" style="color: #666; font-size: 14px; margin-bottom: 15px;"></div>
+            <div id="p-district" style="color: #666; font-size: 14px; margin-bottom: 10px;"></div>
             <div id="p-desc" style="line-height: 1.6; font-size: 15px;"></div>
-            
             <div class="popup-meta">
                 <strong>📍 <span id="loc-label">ස්ථානය:</span></strong> <span id="p-reach"></span><br>
                 <strong>🎟️ ටිකට්පත්:</strong> <span id="p-fee"></span><br>
                 <strong>⏰ හොඳම කාලය:</strong> <span id="p-best"></span><br>
                 <strong>✨ කළ හැකි දේ:</strong> <span id="p-do"></span>
             </div>
-
-            <div style="background: #fff3e0; padding: 12px; border-radius: 10px; font-size: 13px; border-left: 4px solid #ff9800;">
-                <strong id="contact-label">ප්‍රදේශයේ හදිසි අංක 📞:</strong> <br>
-                පොලිස් ස්ථානය: <span id="p-police"></span>
+            <div style="background: #fff3e0; padding: 12px; border-radius: 10px; font-size: 13px;">
+                <strong id="contact-label">හදිසි අංක 📞:</strong> <br>
+                පොලිස්: <span id="p-police"></span>
             </div>
-
             <a id="p-map" href="#" target="_blank" class="map-btn">Google Map 📍</a>
         </div>
     </div>
@@ -147,7 +155,6 @@
     let currentLang = 'si';
     let currentCategory = 'all';
 
-    // Splash Screen Logic
     window.onload = () => {
         let prog = document.getElementById('progress');
         let width = 0;
@@ -174,17 +181,34 @@
     function updateUI() {
         const t = translations[currentLang];
         document.getElementById('search').placeholder = t.search;
+        document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන හඳුන්වා දීම්' : 'Featured Places';
         document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Locations';
         
-        // Update Filter Labels
-        const filter = document.getElementById('districtFilter');
-        filter.options[0].text = currentLang === 'si' ? 'සියලු දිස්ත්‍රික්ක' : 'All Districts';
-
         ['n2','n3','c0','c1','c2','c3','c4'].forEach(id => {
             if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
         });
         
-        render(currentCategory);
+        renderFeatured();
+        render('all');
+    }
+
+    function renderFeatured() {
+        const area = document.getElementById('featured-area');
+        area.innerHTML = '';
+        // Showing first 5 locations as featured
+        locations.slice(0, 5).forEach(loc => {
+            const card = document.createElement('div');
+            card.className = 'featured-card';
+            card.onclick = () => openDetails(loc.id);
+            card.innerHTML = `
+                <img src="${loc.img}">
+                <div class="featured-overlay">
+                    <div style="font-weight: bold;">${currentLang === 'si' ? loc.name_si : loc.name_en}</div>
+                    <div style="font-size: 12px; opacity: 0.8;">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
+                </div>
+            `;
+            area.appendChild(card);
+        });
     }
 
     function render(cat) {
@@ -198,7 +222,11 @@
         filtered.forEach(loc => {
             const card = document.createElement('div');
             card.className = 'card';
-            card.setAttribute('data-district', loc.district_en); // For searching
+            // Store data for searching
+            card.setAttribute('data-name-si', loc.name_si.toLowerCase());
+            card.setAttribute('data-name-en', loc.name_en.toLowerCase());
+            card.setAttribute('data-dist-en', loc.district_en);
+            
             card.innerHTML = `
                 <img src="${loc.img}" loading="lazy">
                 <div class="card-info">
@@ -209,7 +237,28 @@
             `;
             grid.appendChild(card);
         });
-        searchFn(); // Re-apply search/filter after rendering
+        searchFn(); 
+    }
+
+    function searchFn() {
+        let text = document.getElementById('search').value.toLowerCase();
+        let dist = document.getElementById('districtFilter').value;
+        let cards = document.getElementsByClassName('card');
+
+        for (let card of cards) {
+            let nameSi = card.getAttribute('data-name-si');
+            let nameEn = card.getAttribute('data-name-en');
+            let district = card.getAttribute('data-dist-en');
+
+            let matchesSearch = nameSi.includes(text) || nameEn.includes(text);
+            let matchesDist = (dist === 'all' || district === dist);
+
+            if(matchesSearch && matchesDist) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        }
     }
 
     function filterCat(cat, btn) {
@@ -218,31 +267,9 @@
         render(cat);
     }
 
-    function searchFn() {
-        let searchText = document.getElementById('search').value.toLowerCase();
-        let districtValue = document.getElementById('districtFilter').value;
-        let cards = document.getElementsByClassName('card');
-
-        for (let i = 0; i < cards.length; i++) {
-            let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-            let district = cards[i].getAttribute('data-district');
-
-            // Match search text AND district filter
-            let matchesSearch = title.includes(searchText);
-            let matchesDistrict = (districtValue === 'all' || district === districtValue);
-
-            if (matchesSearch && matchesDistrict) {
-                cards[i].style.display = "block";
-            } else {
-                cards[i].style.display = "none";
-            }
-        }
-    }
-
     function openDetails(id) {
         const loc = locations.find(l => l.id === id);
         const t = translations[currentLang];
-        
         document.getElementById('p-img').src = loc.img;
         document.getElementById('p-title').innerText = currentLang === 'si' ? loc.name_si : loc.name_en;
         document.getElementById('p-district').innerText = `📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}`;
@@ -252,12 +279,7 @@
         document.getElementById('p-best').innerText = currentLang === 'si' ? loc.best_si : loc.best_en;
         document.getElementById('p-do').innerText = currentLang === 'si' ? loc.do_si : loc.do_en;
         document.getElementById('p-police').innerText = loc.police;
-        
-        document.getElementById('loc-label').innerText = t.loc;
-        document.getElementById('contact-label').innerText = t.contact;
         document.getElementById('p-map').href = `https://www.google.com/maps?q=${loc.lat},${loc.lon}`;
-        document.getElementById('p-map').innerText = t.map;
-
         document.getElementById('details-popup').style.display = "block";
     }
 
@@ -265,6 +287,5 @@
         document.getElementById('details-popup').style.display = "none";
     }
 </script>
-
 </body>
 </html>
