@@ -29,18 +29,24 @@
             width: 100%; padding: 12px 15px 12px 45px; border-radius: 12px; 
             border: 1px solid #eee; background: #f1f3f4; font-size: 15px; outline: none; box-sizing: border-box;
         }
-        /* නව දිස්ත්‍රික්ක Filter එක සඳහා Style */
-        .district-filter {
-            width: 100%; padding: 10px; border-radius: 10px; border: 1px solid #eee;
-            background: #fff; margin-top: 10px; font-size: 14px; outline: none;
-        }
-
         .search-icon { position: absolute; left: 15px; top: 12px; color: #777; }
+
+        /* DISTRICT FILTER STYLE - නව එකතු කිරීම */
+        .district-filter-select {
+            width: 100%; margin-top: 10px; padding: 10px; border-radius: 10px;
+            border: 1px solid #eee; background: #fff; font-size: 14px; outline: none;
+        }
 
         /* Navigation Icons */
         .nav-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
         .nav-item { text-align: center; min-width: 65px; text-decoration: none; color: #555; font-size: 11px; }
         .nav-icon { width: 50px; height: 50px; background: white; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 5px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* Featured Section */
+        .featured-scroll { display: flex; gap: 15px; overflow-x: auto; padding: 10px 15px; scrollbar-width: none; }
+        .featured-card { min-width: 280px; height: 160px; border-radius: 20px; overflow: hidden; position: relative; }
+        .featured-img { width: 100%; height: 100%; object-fit: cover; }
+        .featured-overlay { position: absolute; bottom: 0; left: 0; width: 100%; padding: 40px 15px 15px; background: linear-gradient(transparent, rgba(0,0,0,0.8)); color: white; }
 
         /* Categories */
         .section-title { padding: 15px 15px 5px; font-size: 16px; font-weight: bold; }
@@ -89,7 +95,7 @@
             <span class="search-icon">🔍</span>
             <input type="text" id="search" class="search-bar" placeholder="ස්ථානයක් සොයන්න..." oninput="searchFn()">
             
-            <select id="districtFilter" class="district-filter" onchange="searchFn()">
+            <select id="districtFilter" class="district-filter-select" onchange="searchFn()">
                 <option value="all">සියලුම දිස්ත්‍රික්ක (All Districts)</option>
                 <option value="කොළඹ">කොළඹ (Colombo)</option>
                 <option value="ගම්පහ">ගම්පහ (Gampaha)</option>
@@ -105,6 +111,9 @@
         <a href="tel:119" class="nav-item"><div class="nav-icon" style="color: red;">🚨</div><span id="n1">හදිසි</span></a>
     </div>
 
+    <div class="section-title">ජනප්‍රිය ස්ථාන</div>
+    <div id="featured-scroll" class="featured-scroll"></div>
+
     <div class="section-title" id="catTitleSI">ප්‍රධාන වර්ගීකරණය</div>
     <div class="cat-scroll">
         <div class="cat-btn active" onclick="filterCat('all', this)" id="c0">සියල්ල</div>
@@ -115,8 +124,7 @@
     </div>
 
     <div class="section-title" id="listTitleSI">සංචාරක ස්ථාන</div>
-    <div id="location-grid" class="grid">
-        </div>
+    <div id="location-grid" class="grid"></div>
 
     <div id="details-page" class="overlay">
         <div class="details-header">
@@ -161,7 +169,6 @@
     <script>
         let currentLang = localStorage.getItem('lang') || 'si';
 
-        // Splash Loader
         window.onload = () => {
             let prog = document.getElementById('progress');
             let width = 0;
@@ -196,19 +203,37 @@
             ['n1','n2','n3','c0','c1','c2','c3','c4'].forEach(id => {
                 if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
             });
+            renderFeatured();
             render('all');
+        }
+
+        function renderFeatured() {
+            const feat = document.getElementById('featured-scroll');
+            feat.innerHTML = '';
+            locations.slice(0, 5).forEach(loc => {
+                const f = document.createElement('div');
+                f.className = 'featured-card';
+                f.onclick = () => openDetails(loc.id);
+                f.innerHTML = `
+                    <img class="featured-img" src="${loc.img}">
+                    <div class="featured-overlay">
+                        <div style="font-size: 14px; font-weight: bold;">${currentLang === 'si' ? loc.name_si : loc.name_en}</div>
+                        <div style="font-size: 11px; opacity: 0.8;">📍 ${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
+                    </div>
+                `;
+                feat.appendChild(f);
+            });
         }
 
         function render(category) {
             const grid = document.getElementById('location-grid');
             grid.innerHTML = '';
-            
             let filtered = category === 'all' ? locations : locations.filter(l => l.cat === category);
             
             filtered.forEach(loc => {
                 const card = document.createElement('div');
                 card.className = 'card';
-                card.setAttribute('onclick', `openDetails(${loc.id})`);
+                card.onclick = () => openDetails(loc.id);
                 card.innerHTML = `
                     <img class="card-img" src="${loc.img}" loading="lazy">
                     <div class="card-tag">${currentLang === 'si' ? loc.district_si : loc.district_en}</div>
@@ -221,7 +246,7 @@
             });
         }
 
-        // නව සෙවුම් ශ්‍රිතය (Search + District Filter)
+        // පවතින searchFn එක යාවත්කාලීන කිරීම (District Filter එක සමඟ)
         function searchFn() {
             let input = document.getElementById('search').value.toLowerCase();
             let districtInput = document.getElementById('districtFilter').value;
@@ -229,15 +254,10 @@
 
             for (let i = 0; i < cards.length; i++) {
                 let title = cards[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-                
-                // Card එකේ තියෙන onclick function එකෙන් id එක අරන් data එක හොයාගන්නවා
-                let locId = cards[i].getAttribute('onclick').match(/\d+/)[0];
-                let locData = locations.find(l => l.id == locId);
-                
-                let district = locData ? locData.district_si : "";
+                let tagText = cards[i].getElementsByClassName('card-tag')[0].innerText; // දිස්ත්‍රික්කය card එකේ තියෙනවා
 
                 let matchName = title.includes(input);
-                let matchDistrict = (districtInput === "all" || district === districtInput);
+                let matchDistrict = (districtInput === "all" || tagText === districtInput);
 
                 if (matchName && matchDistrict) {
                     cards[i].style.display = "";
@@ -251,9 +271,6 @@
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
             render(cat);
-            // Category එක මාරු කරනකොට search එක reset කරන්න (විකල්පව)
-            document.getElementById('search').value = '';
-            document.getElementById('districtFilter').value = 'all';
         }
 
         function openDetails(id) {
@@ -272,7 +289,6 @@
             document.getElementById('det-call').href = "tel:" + loc.police;
             document.getElementById('det-map').href = `https://www.google.com/maps/search/?api=1&query=${loc.lat},${loc.lon}`;
             
-            // Labels translation
             document.getElementById('det-about-label').innerText = t.about;
             document.getElementById('det-how-label').innerText = t.how;
             document.getElementById('det-contact-label').innerText = t.contact;
