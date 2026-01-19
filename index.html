@@ -52,6 +52,10 @@
         .cat-btn { background: white; border: 1px solid #ddd; padding: 10px 20px; border-radius: 25px; cursor: pointer; font-weight: bold; font-size: 14px; transition: 0.3s; }
         .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
 
+        /* District Selector Style */
+        .district-filter { padding: 0 20px; margin-bottom: 10px; }
+        .district-select { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid #ddd; font-weight: bold; color: #444; outline: none; }
+
         .nav-bar { display: flex; justify-content: space-around; background: white; padding: 15px; margin: -25px 20px 20px 20px; border-radius: 15px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); position: relative; z-index: 10; }
         .nav-item { text-align: center; font-size: 12px; font-weight: bold; cursor: pointer; color: #555; }
 
@@ -125,6 +129,15 @@
         <button class="cat-btn" onclick="filterCat('wild', this)" id="c4">🐘 වනජීවී</button>
     </div>
 
+    <div class="district-filter">
+        <select class="district-select" id="districtSelect" onchange="applyFilters()">
+            <option value="all">සියලුම දිස්ත්‍රික්ක (All Districts)</option>
+            <option value="Colombo">කොළඹ (Colombo)</option>
+            <option value="Gampaha">ගම්පහ (Gampaha)</option>
+            <option value="Kalutara">කළුතර (Kalutara)</option>
+        </select>
+    </div>
+
     <div class="section-title" id="listTitleSI">සංචාරක ස්ථාන</div>
     <div class="container" id="locationList"></div>
 
@@ -149,6 +162,7 @@
 
 <script>
     let currentLang = 'si';
+    let currentCategory = 'all';
     
     window.onload = () => {
         setTimeout(() => {
@@ -157,7 +171,7 @@
                 document.getElementById('splash-screen').style.display = 'none';
                 document.getElementById('main-content').style.display = 'block';
                 renderFeatured();
-                render('all');
+                render('all', 'all');
             }, 500);
         }, 2000);
     };
@@ -178,10 +192,22 @@
         });
     }
 
-    function render(filter) {
+    function render(catFilter, distFilter) {
         const list = document.getElementById('locationList');
         list.innerHTML = "";
-        const filtered = filter === 'all' ? locations : locations.filter(l => l.cat === filter);
+        
+        let filtered = locations;
+        
+        // Category Filter
+        if (catFilter !== 'all') {
+            filtered = filtered.filter(l => l.cat === catFilter);
+        }
+        
+        // District Filter
+        if (distFilter !== 'all') {
+            filtered = filtered.filter(l => l.district_en === distFilter);
+        }
+
         filtered.forEach(loc => {
             list.innerHTML += `
                 <div class="card">
@@ -193,6 +219,12 @@
                     </div>
                 </div>`;
         });
+    }
+
+    // Helper function to apply both filters
+    function applyFilters() {
+        const district = document.getElementById('districtSelect').value;
+        render(currentCategory, district);
     }
 
     function showDetails(id) {
@@ -230,18 +262,25 @@
         document.getElementById('search').placeholder = t.search;
         document.getElementById('catTitleSI').innerText = currentLang === 'si' ? 'ප්‍රධාන වර්ගීකරණය' : 'Explore Categories';
         document.getElementById('listTitleSI').innerText = currentLang === 'si' ? 'සංචාරක ස්ථාන' : 'Nearby Locations';
+        
+        // Update District Selector Text
+        const distSelect = document.getElementById('districtSelect');
+        distSelect.options[0].text = currentLang === 'si' ? 'සියලුම දිස්ත්‍රික්ක' : 'All Districts';
+        
         ['n1','n2','t1','c0','c1','c2','c3','c4'].forEach(id => {
             if(document.getElementById(id)) document.getElementById(id).innerText = t[id];
         });
         renderFeatured();
-        render('all');
+        applyFilters();
     }
 
     function filterCat(cat, btn) {
+        currentCategory = cat;
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        render(cat);
+        applyFilters();
     }
+    
     function showPopup(id) { document.getElementById(id).style.display = "block"; }
     function closePopups() { document.querySelectorAll('.overlay').forEach(el => el.style.display = 'none'); }
     function showToast(msg) { const toast = document.getElementById('custom-toast'); toast.innerText = msg; toast.style.display = 'block'; setTimeout(() => { toast.style.display = 'none'; }, 2000); }
